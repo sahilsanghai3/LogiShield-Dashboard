@@ -19,12 +19,17 @@ async function fetchRouteNews(route) {
         const res = await fetch(url);
         const data = await res.json();
         if (data.articles && data.articles.length > 0) {
-            return data.articles.map(a => `- ${a.title} (${a.publishedAt.slice(0, 10)})`).join('\n');
+            return data.articles.map(a => ({
+                title: a.title,
+                date: a.publishedAt.slice(0, 10),
+                url: a.url,
+                source: a.source.name
+            }));
         }
-        return 'No recent news found.';
+        return [];
     } catch (err) {
         console.error('News fetch error:', err);
-        return 'Could not fetch news.';
+        return [];
     }
 }
 
@@ -115,6 +120,10 @@ app.post('/assess', async (req, res) => {
             };
         }
 
+        const headlinesText = news.length > 0
+            ? news.map(a => `- ${a.title} (${a.date})`).join('\n')
+            : 'No recent news found.';
+
         const message = await client.messages.create({
             model: 'claude-haiku-4-5-20251001',
             max_tokens: 1024,
@@ -126,7 +135,7 @@ app.post('/assess', async (req, res) => {
 Route: ${route}
 
 Latest News Headlines:
-${news}
+${headlinesText}
 
 Based on both your knowledge and these headlines, provide a full assessment.
 
@@ -155,7 +164,8 @@ Respond with raw JSON only. No markdown, no code blocks, no extra text. Exactly 
 
         const response = {
             ...parsed,
-            headlines: news,
+            headlines: headlinesText,
+            newsArticles: news,
             portImages: portImages
         };
 

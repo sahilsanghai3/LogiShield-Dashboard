@@ -6,6 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LogiShield – Shipping Route Risk Analyzer</title>
     <style>
+        :root {
+            --bg: #0f1117;
+            --bg2: #1a1d27;
+            --bg3: #12151f;
+            --border: #2a2d3a;
+            --text: #e0e0e0;
+            --text2: #aaa;
+            --text3: #888;
+            --text4: #555;
+            --text5: #444;
+            --text6: #333;
+            --heading: #ffffff;
+            --accent: #4f8ef7;
+            --accent-hover: #3a7ae0;
+            --tag-bg: #1a1d27;
+            --info-bg: #0f1117;
+        }
+
+        [data-theme="light"] {
+            --bg: #f4f6fb;
+            --bg2: #ffffff;
+            --bg3: #e9ecf3;
+            --border: #d0d5df;
+            --text: #1a1d27;
+            --text2: #555;
+            --text3: #666;
+            --text4: #888;
+            --text5: #aaa;
+            --text6: #bbb;
+            --heading: #0f1117;
+            --accent: #3a7ae0;
+            --accent-hover: #2a5fbf;
+            --tag-bg: #e9ecf3;
+            --info-bg: #f0f2f8;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -14,14 +50,69 @@
 
         body {
             font-family: 'Segoe UI', sans-serif;
-            background: #0f1117;
-            color: #e0e0e0;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 18px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theme-toggle span {
+            font-size: 1.1rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            cursor: pointer;
+        }
+
+        .toggle-switch input {
+            display: none;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            inset: 0;
+            background: var(--border);
+            border-radius: 26px;
+            transition: background 0.3s;
+        }
+
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            left: 3px;
+            top: 3px;
+            background: var(--heading);
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch input:checked+.toggle-slider {
+            background: var(--accent);
+        }
+
+        .toggle-switch input:checked+.toggle-slider::before {
+            transform: translateX(22px);
         }
 
         .container {
@@ -33,15 +124,15 @@
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 6px;
-            color: #ffffff;
+            color: var(--heading);
         }
 
         h1 span {
-            color: #4f8ef7;
+            color: var(--accent);
         }
 
         p.subtitle {
-            color: #888;
+            color: var(--text3);
             margin-bottom: 32px;
             font-size: 0.95rem;
         }
@@ -56,21 +147,21 @@
             flex: 1;
             padding: 14px 18px;
             border-radius: 10px;
-            border: 1px solid #2a2d3a;
-            background: #1a1d27;
-            color: #fff;
+            border: 1px solid var(--border);
+            background: var(--bg2);
+            color: var(--heading);
             font-size: 1rem;
             outline: none;
-            transition: border 0.2s;
+            transition: border 0.2s, background 0.3s;
         }
 
         input:focus {
-            border-color: #4f8ef7;
+            border-color: var(--accent);
         }
 
         button {
             padding: 14px 24px;
-            background: #4f8ef7;
+            background: var(--accent);
             color: #fff;
             border: none;
             border-radius: 10px;
@@ -82,24 +173,24 @@
         }
 
         button:hover {
-            background: #3a7ae0;
+            background: var(--accent-hover);
         }
 
         button:disabled {
-            background: #2a2d3a;
+            background: var(--border);
             cursor: not-allowed;
         }
 
         .card {
-            background: #1a1d27;
+            background: var(--bg2);
             border-radius: 14px;
             padding: 28px;
-            border: 1px solid #2a2d3a;
+            border: 1px solid var(--border);
             display: none;
             margin-bottom: 20px;
+            transition: background 0.3s;
         }
 
-        /* Port Images */
         .port-images {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -258,7 +349,6 @@
             margin-bottom: 24px;
         }
 
-        /* Info Boxes */
         .info-boxes {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -271,10 +361,6 @@
             border: 1px solid #2a2d3a;
             border-radius: 12px;
             padding: 16px;
-        }
-
-        .info-box.full-width {
-            grid-column: 1 / -1;
         }
 
         .info-box-icon {
@@ -375,19 +461,36 @@
         }
 
         .news-item {
+            display: block;
+            text-decoration: none;
             font-size: 0.82rem;
             color: #777;
             line-height: 1.4;
-            padding: 6px 10px;
+            padding: 10px 12px;
             background: #0f1117;
             border-radius: 8px;
             border-left: 2px solid #2a2d3a;
+            transition: border-color 0.2s, background 0.2s;
         }
 
-        .news-item span {
-            color: #444;
+        .news-item:hover {
+            border-left-color: #4f8ef7;
+            background: #12151f;
+            cursor: pointer;
+        }
+
+        .news-item-title {
+            color: #ccc;
+            margin-bottom: 4px;
+        }
+
+        .news-item-meta {
             font-size: 0.75rem;
-            margin-left: 6px;
+            color: #444;
+        }
+
+        .news-link {
+            color: #4f8ef7;
         }
 
         .loading {
@@ -520,10 +623,6 @@
             .port-images {
                 grid-template-columns: 1fr;
             }
-
-            .info-box.full-width {
-                grid-column: 1;
-            }
         }
     </style>
 </head>
@@ -542,14 +641,9 @@
         <div class="error-msg" id="errorMsg"></div>
 
         <div class="card" id="resultCard">
-
-            <!-- Port Images -->
             <div class="port-images" id="portImages"></div>
-
-            <!-- Verdict -->
             <div class="verdict" id="verdict"></div>
 
-            <!-- Score Meter -->
             <div class="score-section">
                 <div class="score-header">
                     <span class="score-label">Risk Score</span>
@@ -566,10 +660,8 @@
                 </div>
             </div>
 
-            <!-- Reason -->
             <div class="reason" id="reason"></div>
 
-            <!-- Info Boxes -->
             <div class="info-boxes">
                 <div class="info-box">
                     <div class="info-box-icon">🚢</div>
@@ -593,11 +685,9 @@
                 </div>
             </div>
 
-            <!-- Key Risk Factors -->
             <div class="factors-title">Key Risk Factors</div>
             <div class="factors" id="factors"></div>
 
-            <!-- Live News -->
             <div class="news-section">
                 <div class="news-title">
                     📡 Live News Used in Analysis
@@ -607,7 +697,6 @@
             </div>
         </div>
 
-        <!-- Chat Box -->
         <div class="chat-box" id="chatBox">
             <div class="chat-header">💬 Ask a follow-up question about this route</div>
             <div class="chat-messages" id="chatMessages"></div>
@@ -635,7 +724,6 @@
         function renderPortImages(portImages) {
             const container = document.getElementById('portImages');
             container.innerHTML = '';
-            console.log('Port images received:', JSON.stringify(portImages));
             if (!portImages) return;
 
             ['port1', 'port2'].forEach(key => {
@@ -668,13 +756,9 @@
         }
 
         function renderInfoBoxes(data) {
-            // Shipping Line
             document.getElementById('shippingLine').textContent = data.shipping_line || '—';
-
-            // Transit Time
             document.getElementById('transitTime').innerHTML = `<strong>${data.transit_time || '—'}</strong>`;
 
-            // Transhipment
             const transhipmentEl = document.getElementById('transhipment');
             if (data.transhipment) {
                 const count = data.transhipment.count;
@@ -688,7 +772,6 @@
                 transhipmentEl.textContent = '—';
             }
 
-            // Route Overview
             document.getElementById('routeOverview').textContent = data.route_overview || '—';
         }
 
@@ -727,15 +810,12 @@
                 const score = data.score || 0;
                 const scoreClass = getScoreClass(score);
 
-                // Port images
                 renderPortImages(data.portImages);
 
-                // Verdict
                 const verdictEl = document.getElementById('verdict');
                 verdictEl.className = 'verdict ' + scoreClass;
                 verdictEl.innerHTML = (scoreClass === 'safe' ? '🟢' : scoreClass === 'moderate' ? '🟡' : '🔴') + ' ' + data.verdict;
 
-                // Score
                 const scoreNumber = document.getElementById('scoreNumber');
                 scoreNumber.className = 'score-number ' + scoreClass;
                 scoreNumber.textContent = score + '/100';
@@ -746,13 +826,10 @@
                     fill.style.width = score + '%';
                 }, 100);
 
-                // Reason
                 document.getElementById('reason').textContent = data.reason;
 
-                // Info Boxes
                 renderInfoBoxes(data);
 
-                // Factors
                 const factorsEl = document.getElementById('factors');
                 factorsEl.innerHTML = '';
                 data.factors.forEach(f => {
@@ -762,20 +839,20 @@
                     factorsEl.appendChild(tag);
                 });
 
-                // News
+                // News with clickable links
                 const newsList = document.getElementById('newsList');
                 newsList.innerHTML = '';
-                if (data.headlines && data.headlines !== 'No recent news found.' && data.headlines !== 'Could not fetch news.') {
-                    const lines = data.headlines.split('\n').filter(l => l.trim());
-                    lines.forEach(line => {
-                        const item = document.createElement('div');
+                if (data.newsArticles && data.newsArticles.length > 0) {
+                    data.newsArticles.forEach(article => {
+                        const item = document.createElement('a');
                         item.className = 'news-item';
-                        const match = line.match(/^- (.+) \((\d{4}-\d{2}-\d{2})\)$/);
-                        if (match) {
-                            item.innerHTML = match[1] + '<span>' + match[2] + '</span>';
-                        } else {
-                            item.textContent = line.replace(/^- /, '');
-                        }
+                        item.href = article.url;
+                        item.target = '_blank';
+                        item.rel = 'noopener noreferrer';
+                        item.innerHTML = `
+              <div class="news-item-title">${article.title}</div>
+              <div class="news-item-meta">${article.source} · ${article.date} · <span class="news-link">Read →</span></div>
+            `;
                         newsList.appendChild(item);
                     });
                 } else {
