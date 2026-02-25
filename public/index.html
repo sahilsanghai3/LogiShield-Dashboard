@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LogiShield – Shipping Route Risk Analyzer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f1117;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 680px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #ffffff;
+        }
+
+        h1 span {
+            color: #4f8ef7;
+        }
+
+        p.subtitle {
+            color: #888;
+            margin-bottom: 32px;
+            font-size: 0.95rem;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+
+        input {
+            flex: 1;
+            padding: 14px 18px;
+            border-radius: 10px;
+            border: 1px solid #2a2d3a;
+            background: #1a1d27;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        input:focus {
+            border-color: #4f8ef7;
+        }
+
+        button {
+            padding: 14px 24px;
+            background: #4f8ef7;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        button:hover {
+            background: #3a7ae0;
+        }
+
+        button:disabled {
+            background: #2a2d3a;
+            cursor: not-allowed;
+        }
+
+        .card {
+            background: #1a1d27;
+            border-radius: 14px;
+            padding: 28px;
+            border: 1px solid #2a2d3a;
+            display: none;
+        }
+
+        .verdict {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .verdict.safe {
+            color: #3ecf8e;
+        }
+
+        .verdict.risk {
+            color: #f76f6f;
+        }
+
+        .reason {
+            font-size: 0.95rem;
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .factors-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .factors {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .factor-tag {
+            background: #0f1117;
+            border: 1px solid #2a2d3a;
+            border-radius: 20px;
+            padding: 5px 14px;
+            font-size: 0.82rem;
+            color: #ccc;
+        }
+
+        .loading {
+            text-align: center;
+            color: #555;
+            font-size: 0.95rem;
+            display: none;
+            margin-top: 10px;
+        }
+
+        .error-msg {
+            color: #f76f6f;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: none;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.75rem;
+            color: #333;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Logi<span>Shield</span></h1>
+        <p class="subtitle">AI-powered shipping route risk analyzer. Enter a route to get an instant assessment.</p>
+
+        <div class="input-row">
+            <input type="text" id="routeInput" placeholder="e.g. Red Sea → Suez Canal" />
+            <button id="assessBtn" onclick="assess()">Assess Risk</button>
+        </div>
+
+        <div class="loading" id="loading">⏳ Analyzing route...</div>
+        <div class="error-msg" id="errorMsg"></div>
+
+        <div class="card" id="resultCard">
+            <div class="verdict" id="verdict"></div>
+            <div class="reason" id="reason"></div>
+            <div class="factors-title">Key Risk Factors</div>
+            <div class="factors" id="factors"></div>
+        </div>
+
+        <footer>For informational and educational purposes only. Not financial or operational advice.</footer>
+    </div>
+
+    <script>
+        async function assess() {
+            const route = document.getElementById('routeInput').value.trim();
+            if (!route) return;
+
+            const btn = document.getElementById('assessBtn');
+            const loading = document.getElementById('loading');
+            const card = document.getElementById('resultCard');
+            const errorMsg = document.getElementById('errorMsg');
+
+            btn.disabled = true;
+            loading.style.display = 'block';
+            card.style.display = 'none';
+            errorMsg.style.display = 'none';
+
+            try {
+                const res = await fetch('/assess', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ route })
+                });
+
+                const data = await res.json();
+
+                if (data.error) throw new Error(data.error);
+
+                const verdictEl = document.getElementById('verdict');
+                verdictEl.className = 'verdict ' + (data.verdict === 'Safe' ? 'safe' : 'risk');
+                verdictEl.innerHTML = (data.verdict === 'Safe' ? '🟢' : '🔴') + ' ' + data.verdict;
+
+                document.getElementById('reason').textContent = data.reason;
+
+                const factorsEl = document.getElementById('factors');
+                factorsEl.innerHTML = '';
+                data.factors.forEach(f => {
+                    const tag = document.createElement('span');
+                    tag.className = 'factor-tag';
+                    tag.textContent = f;
+                    factorsEl.appendChild(tag);
+                });
+
+                card.style.display = 'block';
+
+            } catch (err) {
+                errorMsg.textContent = '❌ Error: ' + err.message;
+                errorMsg.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                loading.style.display = 'none';
+            }
+        }
+
+        document.getElementById('routeInput').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') assess();
+        });
+    </script>
+</body>
+
+</html>
