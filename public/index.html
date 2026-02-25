@@ -62,15 +62,37 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
-        /* Theme Toggle */
-        .theme-toggle {
+        /* Top-right controls */
+        .top-controls {
             position: fixed;
             top: 18px;
             right: 20px;
             z-index: 1000;
             display: flex;
             align-items: center;
+            gap: 14px;
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
             gap: 8px;
+        }
+
+        .lang-select {
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg2);
+            color: var(--text);
+            font-size: 0.82rem;
+            cursor: pointer;
+            outline: none;
+            transition: border 0.2s, background 0.3s;
+        }
+
+        .lang-select:focus {
+            border-color: var(--accent);
         }
 
         .theme-toggle span {
@@ -710,26 +732,47 @@
 </head>
 
 <body>
-    <!-- Theme Toggle -->
-    <div class="theme-toggle">
-        <span>☀️</span>
-        <label class="toggle-switch">
-            <input type="checkbox" id="themeToggle" checked />
-            <span class="toggle-slider"></span>
-        </label>
-        <span>🌙</span>
+    <!-- Top Controls: Language + Theme -->
+    <div class="top-controls">
+        <select class="lang-select" id="langSelect">
+            <option value="en">🇬🇧 English</option>
+            <option value="es">🇪🇸 Español</option>
+            <option value="fr">🇫🇷 Français</option>
+            <option value="de">🇩🇪 Deutsch</option>
+            <option value="pt">🇧🇷 Português</option>
+            <option value="it">🇮🇹 Italiano</option>
+            <option value="nl">🇳🇱 Nederlands</option>
+            <option value="ru">🇷🇺 Русский</option>
+            <option value="zh">🇨🇳 中文</option>
+            <option value="ja">🇯🇵 日本語</option>
+            <option value="ko">🇰🇷 한국어</option>
+            <option value="ar">🇸🇦 العربية</option>
+            <option value="hi">🇮🇳 हिन्दी</option>
+            <option value="tr">🇹🇷 Türkçe</option>
+            <option value="pl">🇵🇱 Polski</option>
+        </select>
+        <div class="theme-toggle">
+            <span>☀️</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="themeToggle" checked />
+                <span class="toggle-slider"></span>
+            </label>
+            <span>🌙</span>
+        </div>
     </div>
 
     <div class="container">
         <h1>Logi<span>Shield</span></h1>
-        <p class="subtitle">AI-powered shipping route risk analyzer. Enter a route to get an instant assessment.</p>
+        <p class="subtitle" data-i18n="subtitle">AI-powered shipping route risk analyzer. Enter a route to get an
+            instant assessment.</p>
 
         <div class="input-row">
-            <input type="text" id="routeInput" placeholder="e.g. Red Sea → Suez Canal" />
-            <button id="assessBtn" onclick="assess()">Assess Risk</button>
+            <input type="text" id="routeInput" data-i18n-placeholder="inputPlaceholder"
+                placeholder="e.g. Red Sea → Suez Canal" />
+            <button id="assessBtn" onclick="assess()" data-i18n="assessBtn">Assess Risk</button>
         </div>
 
-        <div class="loading" id="loading">⏳ Fetching live news & analyzing route...</div>
+        <div class="loading" id="loading" data-i18n="loading">⏳ Fetching live news & analyzing route...</div>
         <div class="error-msg" id="errorMsg"></div>
 
         <div class="card" id="resultCard">
@@ -738,17 +781,17 @@
 
             <div class="score-section">
                 <div class="score-header">
-                    <span class="score-label">Risk Score</span>
+                    <span class="score-label" data-i18n="riskScore">Risk Score</span>
                     <span class="score-number" id="scoreNumber">0/100</span>
                 </div>
                 <div class="score-bar-bg">
                     <div class="score-bar-fill" id="scoreBarFill"></div>
                 </div>
                 <div class="score-ticks">
-                    <span>0 — Safe</span>
+                    <span data-i18n="safe">0 — Safe</span>
                     <span>33</span>
                     <span>66</span>
-                    <span>100 — Critical</span>
+                    <span data-i18n="critical">100 — Critical</span>
                 </div>
             </div>
 
@@ -757,39 +800,40 @@
             <div class="info-boxes">
                 <div class="info-box">
                     <div class="info-box-icon">🚢</div>
-                    <div class="info-box-title">Best Shipping Line</div>
+                    <div class="info-box-title" data-i18n="bestShipping">Best Shipping Line</div>
                     <div class="info-box-value" id="shippingLine">—</div>
                 </div>
                 <div class="info-box">
                     <div class="info-box-icon">⏱️</div>
-                    <div class="info-box-title">Approx. Transit Time</div>
+                    <div class="info-box-title" data-i18n="transitTime">Approx. Transit Time</div>
                     <div class="info-box-value" id="transitTime">—</div>
                 </div>
                 <div class="info-box">
                     <div class="info-box-icon">🔀</div>
-                    <div class="info-box-title">Transhipment Ports</div>
+                    <div class="info-box-title" data-i18n="transhipment">Transhipment Ports</div>
                     <div class="info-box-value" id="transhipment">—</div>
                 </div>
                 <div class="info-box">
                     <div class="info-box-icon">🗺️</div>
-                    <div class="info-box-title">Route Overview</div>
+                    <div class="info-box-title" data-i18n="routeOverview">Route Overview</div>
                     <div class="info-box-value" id="routeOverview">—</div>
                 </div>
             </div>
 
-            <div class="factors-title">Key Risk Factors</div>
+            <div class="factors-title" data-i18n="keyFactors">Key Risk Factors</div>
             <div class="factors" id="factors"></div>
 
             <div class="news-section">
                 <div class="news-title">
-                    📡 Live News Used in Analysis
-                    <span class="news-badge">Real-Time</span>
+                    📡 <span data-i18n="liveNews">Live News Used in Analysis</span>
+                    <span class="news-badge" data-i18n="realTime">Real-Time</span>
                 </div>
                 <div class="news-list" id="newsList"></div>
             </div>
         </div>
 
-        <footer>For informational and educational purposes only. Not financial or operational advice.</footer>
+        <footer data-i18n="footer">For informational and educational purposes only. Not financial or operational advice.
+        </footer>
     </div>
 
     <!-- Floating Chat FAB -->
@@ -798,7 +842,7 @@
     <!-- Floating Chat Widget -->
     <div class="chat-box" id="chatBox">
         <div class="chat-header">
-            <span>💬 Ask about this route</span>
+            <span data-i18n="chatHeader">💬 Ask about this route</span>
             <button class="chat-close" onclick="toggleChat()">✕</button>
         </div>
         <div class="chat-messages" id="chatMessages"></div>
@@ -1057,6 +1101,48 @@
                 localStorage.setItem('logishield-theme', 'light');
             }
         });
+
+        // ── Language translations ──
+        const translations = {
+            en: { subtitle: 'AI-powered shipping route risk analyzer. Enter a route to get an instant assessment.', inputPlaceholder: 'e.g. Red Sea → Suez Canal', assessBtn: 'Assess Risk', loading: '⏳ Fetching live news & analyzing route...', riskScore: 'Risk Score', safe: '0 — Safe', critical: '100 — Critical', bestShipping: 'Best Shipping Line', transitTime: 'Approx. Transit Time', transhipment: 'Transhipment Ports', routeOverview: 'Route Overview', keyFactors: 'Key Risk Factors', liveNews: 'Live News Used in Analysis', realTime: 'Real-Time', footer: 'For informational and educational purposes only. Not financial or operational advice.', chatHeader: '💬 Ask about this route', chatPlaceholder: "e.g. What's a safer alternative?" },
+            es: { subtitle: 'Analizador de riesgos de rutas marítimas con IA. Ingrese una ruta para obtener una evaluación.', inputPlaceholder: 'ej. Mar Rojo → Canal de Suez', assessBtn: 'Evaluar Riesgo', loading: '⏳ Obteniendo noticias y analizando ruta...', riskScore: 'Puntuación de Riesgo', safe: '0 — Seguro', critical: '100 — Crítico', bestShipping: 'Mejor Línea Naviera', transitTime: 'Tiempo de Tránsito Aprox.', transhipment: 'Puertos de Transbordo', routeOverview: 'Descripción de Ruta', keyFactors: 'Factores de Riesgo Clave', liveNews: 'Noticias en Vivo del Análisis', realTime: 'Tiempo Real', footer: 'Solo con fines informativos y educativos. No es asesoramiento financiero ni operativo.', chatHeader: '💬 Pregunta sobre esta ruta', chatPlaceholder: 'ej. ¿Hay una ruta más segura?' },
+            fr: { subtitle: 'Analyseur de risques de routes maritimes propulsé par l\'IA. Entrez une route pour une évaluation instantanée.', inputPlaceholder: 'ex. Mer Rouge → Canal de Suez', assessBtn: 'Évaluer le Risque', loading: '⏳ Récupération des nouvelles et analyse de la route...', riskScore: 'Score de Risque', safe: '0 — Sûr', critical: '100 — Critique', bestShipping: 'Meilleure Compagnie Maritime', transitTime: 'Temps de Transit Approx.', transhipment: 'Ports de Transbordement', routeOverview: 'Aperçu de la Route', keyFactors: 'Facteurs de Risque Clés', liveNews: 'Actualités Utilisées dans l\'Analyse', realTime: 'Temps Réel', footer: 'À titre informatif et éducatif uniquement. Pas de conseil financier ou opérationnel.', chatHeader: '💬 Posez une question sur cette route', chatPlaceholder: 'ex. Y a-t-il une route plus sûre ?' },
+            de: { subtitle: 'KI-gestützter Risikoanalysator für Schifffahrtsrouten. Geben Sie eine Route ein.', inputPlaceholder: 'z.B. Rotes Meer → Suezkanal', assessBtn: 'Risiko Bewerten', loading: '⏳ Nachrichten abrufen & Route analysieren...', riskScore: 'Risikobewertung', safe: '0 — Sicher', critical: '100 — Kritisch', bestShipping: 'Beste Reederei', transitTime: 'Ungefähre Transitzeit', transhipment: 'Umschlaghäfen', routeOverview: 'Routenübersicht', keyFactors: 'Wichtige Risikofaktoren', liveNews: 'Live-Nachrichten der Analyse', realTime: 'Echtzeit', footer: 'Nur zu Informations- und Bildungszwecken. Keine finanzielle oder operative Beratung.', chatHeader: '💬 Frage zu dieser Route', chatPlaceholder: 'z.B. Gibt es eine sicherere Route?' },
+            pt: { subtitle: 'Analisador de riscos de rotas marítimas com IA. Insira uma rota para avaliação instantânea.', inputPlaceholder: 'ex. Mar Vermelho → Canal de Suez', assessBtn: 'Avaliar Risco', loading: '⏳ Buscando notícias e analisando rota...', riskScore: 'Pontuação de Risco', safe: '0 — Seguro', critical: '100 — Crítico', bestShipping: 'Melhor Linha de Navegação', transitTime: 'Tempo de Trânsito Aprox.', transhipment: 'Portos de Transbordo', routeOverview: 'Visão Geral da Rota', keyFactors: 'Fatores de Risco Principais', liveNews: 'Notícias Usadas na Análise', realTime: 'Tempo Real', footer: 'Apenas para fins informativos e educacionais. Não é aconselhamento financeiro ou operacional.', chatHeader: '💬 Pergunte sobre esta rota', chatPlaceholder: 'ex. Existe uma rota mais segura?' },
+            it: { subtitle: 'Analizzatore di rischi delle rotte marittime basato su IA. Inserisci una rotta per una valutazione.', inputPlaceholder: 'es. Mar Rosso → Canale di Suez', assessBtn: 'Valuta Rischio', loading: '⏳ Recupero notizie e analisi della rotta...', riskScore: 'Punteggio di Rischio', safe: '0 — Sicuro', critical: '100 — Critico', bestShipping: 'Migliore Compagnia di Navigazione', transitTime: 'Tempo di Transito Appross.', transhipment: 'Porti di Trasbordo', routeOverview: 'Panoramica della Rotta', keyFactors: 'Fattori di Rischio Chiave', liveNews: 'Notizie Utilizzate nell\'Analisi', realTime: 'Tempo Reale', footer: 'Solo a scopo informativo ed educativo. Non è consulenza finanziaria o operativa.', chatHeader: '💬 Chiedi su questa rotta', chatPlaceholder: 'es. C\'è una rotta più sicura?' },
+            nl: { subtitle: 'AI-aangedreven risicoanalyse voor scheepvaartroutes. Voer een route in voor een beoordeling.', inputPlaceholder: 'bijv. Rode Zee → Suezkanaal', assessBtn: 'Risico Beoordelen', loading: '⏳ Nieuws ophalen & route analyseren...', riskScore: 'Risicoscore', safe: '0 — Veilig', critical: '100 — Kritiek', bestShipping: 'Beste Rederij', transitTime: 'Geschatte Transittijd', transhipment: 'Overladhavens', routeOverview: 'Route-overzicht', keyFactors: 'Belangrijkste Risicofactoren', liveNews: 'Live Nieuws Gebruikt in Analyse', realTime: 'Real-Time', footer: 'Alleen voor informatieve en educatieve doeleinden. Geen financieel of operationeel advies.', chatHeader: '💬 Vraag over deze route', chatPlaceholder: 'bijv. Is er een veiligere route?' },
+            ru: { subtitle: 'ИИ-анализатор рисков морских маршрутов. Введите маршрут для мгновенной оценки.', inputPlaceholder: 'напр. Красное море → Суэцкий канал', assessBtn: 'Оценить Риск', loading: '⏳ Получение новостей и анализ маршрута...', riskScore: 'Оценка Риска', safe: '0 — Безопасно', critical: '100 — Критично', bestShipping: 'Лучшая Судоходная Линия', transitTime: 'Примерное Время Транзита', transhipment: 'Перевалочные Порты', routeOverview: 'Обзор Маршрута', keyFactors: 'Ключевые Факторы Риска', liveNews: 'Новости Используемые в Анализе', realTime: 'Реальное Время', footer: 'Только в информационных и образовательных целях. Не является финансовой или операционной консультацией.', chatHeader: '💬 Спросите о маршруте', chatPlaceholder: 'напр. Есть ли более безопасный маршрут?' },
+            zh: { subtitle: 'AI驱动的航运路线风险分析器。输入路线即可获得即时评估。', inputPlaceholder: '例：红海 → 苏伊士运河', assessBtn: '评估风险', loading: '⏳ 获取新闻并分析路线...', riskScore: '风险评分', safe: '0 — 安全', critical: '100 — 危急', bestShipping: '最佳航运公司', transitTime: '大约运输时间', transhipment: '转运港口', routeOverview: '路线概览', keyFactors: '关键风险因素', liveNews: '分析中使用的实时新闻', realTime: '实时', footer: '仅供信息和教育用途，不构成财务或运营建议。', chatHeader: '💬 询问此路线', chatPlaceholder: '例：有更安全的路线吗？' },
+            ja: { subtitle: 'AI搭載の航路リスク分析ツール。ルートを入力して即座に評価を取得。', inputPlaceholder: '例：紅海 → スエズ運河', assessBtn: 'リスク評価', loading: '⏳ ニュースを取得しルートを分析中...', riskScore: 'リスクスコア', safe: '0 — 安全', critical: '100 — 危機的', bestShipping: '最適な船会社', transitTime: 'おおよその輸送時間', transhipment: '積替港', routeOverview: 'ルート概要', keyFactors: '主要リスク要因', liveNews: '分析に使用されたニュース', realTime: 'リアルタイム', footer: '情報提供および教育目的のみ。財務または運営上のアドバイスではありません。', chatHeader: '💬 このルートについて質問', chatPlaceholder: '例：より安全なルートはありますか？' },
+            ko: { subtitle: 'AI 기반 해운 경로 위험 분석기. 경로를 입력하여 즉시 평가를 받으세요.', inputPlaceholder: '예: 홍해 → 수에즈 운하', assessBtn: '위험 평가', loading: '⏳ 뉴스 가져오기 & 경로 분석 중...', riskScore: '위험 점수', safe: '0 — 안전', critical: '100 — 위험', bestShipping: '최적 해운사', transitTime: '대략적 운송 시간', transhipment: '환적 항구', routeOverview: '경로 개요', keyFactors: '주요 위험 요인', liveNews: '분석에 사용된 뉴스', realTime: '실시간', footer: '정보 및 교육 목적으로만 제공됩니다. 재정적 또는 운영상 조언이 아닙니다.', chatHeader: '💬 이 경로에 대해 질문', chatPlaceholder: '예: 더 안전한 경로가 있나요?' },
+            ar: { subtitle: 'محلل مخاطر مسارات الشحن بالذكاء الاصطناعي. أدخل مسارًا للحصول على تقييم فوري.', inputPlaceholder: 'مثال: البحر الأحمر → قناة السويس', assessBtn: 'تقييم المخاطر', loading: '⏳ جلب الأخبار وتحليل المسار...', riskScore: 'درجة المخاطر', safe: '0 — آمن', critical: '100 — حرج', bestShipping: 'أفضل خط شحن', transitTime: 'وقت العبور التقريبي', transhipment: 'موانئ الشحن العابر', routeOverview: 'نظرة عامة على المسار', keyFactors: 'عوامل المخاطر الرئيسية', liveNews: 'الأخبار المستخدمة في التحليل', realTime: 'الوقت الفعلي', footer: 'لأغراض إعلامية وتعليمية فقط. ليست نصيحة مالية أو تشغيلية.', chatHeader: '💬 اسأل عن هذا المسار', chatPlaceholder: 'مثال: هل يوجد مسار أكثر أمانًا؟' },
+            hi: { subtitle: 'AI-संचालित शिपिंग रूट जोखिम विश्लेषक। त्वरित मूल्यांकन के लिए एक मार्ग दर्ज करें।', inputPlaceholder: 'उदा. लाल सागर → स्वेज नहर', assessBtn: 'जोखिम मूल्यांकन', loading: '⏳ समाचार प्राप्त कर रहे हैं और मार्ग का विश्लेषण कर रहे हैं...', riskScore: 'जोखिम स्कोर', safe: '0 — सुरक्षित', critical: '100 — गंभीर', bestShipping: 'सर्वश्रेष्ठ शिपिंग लाइन', transitTime: 'अनुमानित पारगमन समय', transhipment: 'ट्रांसशिपमेंट पोर्ट', routeOverview: 'मार्ग अवलोकन', keyFactors: 'प्रमुख जोखिम कारक', liveNews: 'विश्लेषण में उपयोग की गई समाचार', realTime: 'रीयल-टाइम', footer: 'केवल सूचनात्मक और शैक्षिक उद्देश्यों के लिए। वित्तीय या परिचालन सलाह नहीं है।', chatHeader: '💬 इस मार्ग के बारे में पूछें', chatPlaceholder: 'उदा. क्या कोई सुरक्षित मार्ग है?' },
+            tr: { subtitle: 'Yapay zeka destekli deniz yolu risk analizörü. Anlık değerlendirme için bir rota girin.', inputPlaceholder: 'örn. Kızıldeniz → Süveyş Kanalı', assessBtn: 'Risk Değerlendir', loading: '⏳ Haberler alınıyor ve rota analiz ediliyor...', riskScore: 'Risk Puanı', safe: '0 — Güvenli', critical: '100 — Kritik', bestShipping: 'En İyi Nakliye Hattı', transitTime: 'Yaklaşık Transit Süresi', transhipment: 'Aktarma Limanları', routeOverview: 'Rota Genel Bakış', keyFactors: 'Temel Risk Faktörleri', liveNews: 'Analizde Kullanılan Haberler', realTime: 'Gerçek Zamanlı', footer: 'Yalnızca bilgilendirme ve eğitim amaçlıdır. Mali veya operasyonel tavsiye değildir.', chatHeader: '💬 Bu rota hakkında sorun', chatPlaceholder: 'örn. Daha güvenli bir rota var mı?' },
+            pl: { subtitle: 'Analizator ryzyka tras żeglugowych oparty na AI. Wprowadź trasę, aby uzyskać ocenę.', inputPlaceholder: 'np. Morze Czerwone → Kanał Sueski', assessBtn: 'Oceń Ryzyko', loading: '⏳ Pobieranie wiadomości i analiza trasy...', riskScore: 'Ocena Ryzyka', safe: '0 — Bezpieczny', critical: '100 — Krytyczny', bestShipping: 'Najlepsza Linia Żeglugowa', transitTime: 'Przybliżony Czas Tranzytu', transhipment: 'Porty Przeładunkowe', routeOverview: 'Przegląd Trasy', keyFactors: 'Kluczowe Czynniki Ryzyka', liveNews: 'Wiadomości Użyte w Analizie', realTime: 'Na Żywo', footer: 'Wyłącznie w celach informacyjnych i edukacyjnych. Nie stanowi porady finansowej ani operacyjnej.', chatHeader: '💬 Zapytaj o tę trasę', chatPlaceholder: 'np. Czy jest bezpieczniejsza trasa?' }
+        };
+
+        function applyLanguage(lang) {
+            const t = translations[lang] || translations.en;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) el.textContent = t[key];
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (t[key]) el.placeholder = t[key];
+            });
+            const chatInput = document.getElementById('chatInput');
+            if (t.chatPlaceholder) chatInput.placeholder = t.chatPlaceholder;
+            localStorage.setItem('logishield-lang', lang);
+        }
+
+        const langSelect = document.getElementById('langSelect');
+        const savedLang = localStorage.getItem('logishield-lang');
+        if (savedLang) {
+            langSelect.value = savedLang;
+            applyLanguage(savedLang);
+        }
+        langSelect.addEventListener('change', () => applyLanguage(langSelect.value));
     </script>
 </body>
 
