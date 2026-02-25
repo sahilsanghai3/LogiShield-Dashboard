@@ -201,7 +201,7 @@
         .port-image-card {
             border-radius: 10px;
             overflow: hidden;
-            border: 1px solid #2a2d3a;
+            border: 1px solid var(--border);
         }
 
         .port-image-card img {
@@ -214,7 +214,7 @@
         .port-image-placeholder {
             width: 100%;
             height: 130px;
-            background: #0f1117;
+            background: var(--bg);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -223,31 +223,31 @@
 
         .port-image-label {
             padding: 8px 10px;
-            background: #12151f;
+            background: var(--bg3);
             font-size: 0.78rem;
-            color: #aaa;
+            color: var(--text2);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .port-image-label strong {
-            color: #fff;
+            color: var(--heading);
             font-size: 0.82rem;
         }
 
         .port-credit {
             font-size: 0.68rem;
-            color: #444;
+            color: var(--text5);
         }
 
         .port-credit a {
-            color: #444;
+            color: var(--text5);
             text-decoration: none;
         }
 
         .port-credit a:hover {
-            color: #666;
+            color: var(--text3);
         }
 
         .verdict {
@@ -286,7 +286,7 @@
             font-size: 0.82rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #555;
+            color: var(--text4);
         }
 
         .score-number {
@@ -309,10 +309,10 @@
         .score-bar-bg {
             width: 100%;
             height: 12px;
-            background: #0f1117;
+            background: var(--bg);
             border-radius: 99px;
             overflow: hidden;
-            border: 1px solid #2a2d3a;
+            border: 1px solid var(--border);
         }
 
         .score-bar-fill {
@@ -339,12 +339,12 @@
             justify-content: space-between;
             margin-top: 5px;
             font-size: 0.7rem;
-            color: #444;
+            color: var(--text5);
         }
 
         .reason {
             font-size: 0.95rem;
-            color: #aaa;
+            color: var(--text2);
             line-height: 1.6;
             margin-bottom: 24px;
         }
@@ -357,8 +357,8 @@
         }
 
         .info-box {
-            background: #0f1117;
-            border: 1px solid #2a2d3a;
+            background: var(--info-bg);
+            border: 1px solid var(--border);
             border-radius: 12px;
             padding: 16px;
         }
@@ -372,18 +372,18 @@
             font-size: 0.72rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #555;
+            color: var(--text4);
             margin-bottom: 6px;
         }
 
         .info-box-value {
             font-size: 0.92rem;
-            color: #ddd;
+            color: var(--text);
             line-height: 1.5;
         }
 
         .info-box-value strong {
-            color: #fff;
+            color: var(--heading);
             font-size: 1rem;
         }
 
@@ -395,19 +395,19 @@
         }
 
         .transhipment-tag {
-            background: #1a1d27;
-            border: 1px solid #2a2d3a;
+            background: var(--tag-bg);
+            border: 1px solid var(--border);
             border-radius: 20px;
             padding: 3px 10px;
             font-size: 0.78rem;
-            color: #aaa;
+            color: var(--text2);
         }
 
         .factors-title {
             font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #555;
+            color: var(--text4);
             margin-bottom: 10px;
         }
 
@@ -419,16 +419,16 @@
         }
 
         .factor-tag {
-            background: #0f1117;
-            border: 1px solid #2a2d3a;
+            background: var(--info-bg);
+            border: 1px solid var(--border);
             border-radius: 20px;
             padding: 5px 14px;
             font-size: 0.82rem;
-            color: #ccc;
+            color: var(--text);
         }
 
         .news-section {
-            border-top: 1px solid #2a2d3a;
+            border-top: 1px solid var(--border);
             padding-top: 16px;
         }
 
@@ -436,7 +436,7 @@
             font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #555;
+            color: var(--text4);
             margin-bottom: 10px;
             display: flex;
             align-items: center;
@@ -464,38 +464,38 @@
             display: block;
             text-decoration: none;
             font-size: 0.82rem;
-            color: #777;
+            color: var(--text3);
             line-height: 1.4;
             padding: 10px 12px;
-            background: #0f1117;
+            background: var(--info-bg);
             border-radius: 8px;
-            border-left: 2px solid #2a2d3a;
+            border-left: 2px solid var(--border);
             transition: border-color 0.2s, background 0.2s;
         }
 
         .news-item:hover {
-            border-left-color: #4f8ef7;
-            background: #12151f;
+            border-left-color: var(--accent);
+            background: var(--bg3);
             cursor: pointer;
         }
 
         .news-item-title {
-            color: #ccc;
+            color: var(--text);
             margin-bottom: 4px;
         }
 
         .news-item-meta {
             font-size: 0.75rem;
-            color: #444;
+            color: var(--text5);
         }
 
         .news-link {
-            color: #4f8ef7;
+            color: var(--accent);
         }
 
         .loading {
             text-align: center;
-            color: #555;
+            color: var(--text4);
             font-size: 0.95rem;
             display: none;
             margin-top: 10px;
@@ -508,24 +508,81 @@
             display: none;
         }
 
+        /* Floating Chat Widget */
+        .chat-fab {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 999;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(79, 142, 247, 0.35);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .chat-fab:hover {
+            transform: scale(1.1);
+            background: var(--accent-hover);
+        }
+
+        .chat-fab.visible {
+            display: flex;
+        }
+
         .chat-box {
-            background: #1a1d27;
-            border-radius: 14px;
-            border: 1px solid #2a2d3a;
+            position: fixed;
+            bottom: 90px;
+            right: 24px;
+            z-index: 1000;
+            width: 370px;
+            max-height: 480px;
+            background: var(--bg2);
+            border-radius: 16px;
+            border: 1px solid var(--border);
             display: none;
             flex-direction: column;
             overflow: hidden;
-            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+            transition: background 0.3s;
+        }
+
+        .chat-box.open {
+            display: flex;
         }
 
         .chat-header {
             padding: 14px 20px;
-            background: #12151f;
-            border-bottom: 1px solid #2a2d3a;
+            background: var(--bg3);
+            border-bottom: 1px solid var(--border);
             font-size: 0.85rem;
-            color: #4f8ef7;
+            color: var(--accent);
             font-weight: 600;
             letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: var(--text4);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0 4px;
+        }
+
+        .chat-close:hover {
+            color: var(--text);
         }
 
         .chat-messages {
@@ -533,8 +590,9 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            max-height: 320px;
+            max-height: 280px;
             overflow-y: auto;
+            flex: 1;
         }
 
         .message {
@@ -559,21 +617,21 @@
         }
 
         .message.user .message-bubble {
-            background: #4f8ef7;
+            background: var(--accent);
             color: #fff;
             border-bottom-right-radius: 4px;
         }
 
         .message.assistant .message-bubble {
-            background: #0f1117;
-            color: #ddd;
-            border: 1px solid #2a2d3a;
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--border);
             border-bottom-left-radius: 4px;
         }
 
         .message-label {
             font-size: 0.72rem;
-            color: #555;
+            color: var(--text4);
             margin-bottom: 4px;
             padding: 0 4px;
         }
@@ -586,8 +644,8 @@
             display: flex;
             gap: 8px;
             padding: 12px 16px;
-            border-top: 1px solid #2a2d3a;
-            background: #12151f;
+            border-top: 1px solid var(--border);
+            background: var(--bg3);
         }
 
         .chat-input-row input {
@@ -603,7 +661,7 @@
 
         .chat-typing {
             font-size: 0.82rem;
-            color: #555;
+            color: var(--text4);
             padding: 0 16px 10px;
             display: none;
         }
@@ -611,11 +669,22 @@
         footer {
             margin-top: 20px;
             font-size: 0.75rem;
-            color: #333;
+            color: var(--text6);
             text-align: center;
         }
 
         @media (max-width: 500px) {
+            .chat-box {
+                width: calc(100vw - 32px);
+                right: 16px;
+                bottom: 80px;
+            }
+
+            .chat-fab {
+                bottom: 16px;
+                right: 16px;
+            }
+
             .info-boxes {
                 grid-template-columns: 1fr;
             }
@@ -628,6 +697,16 @@
 </head>
 
 <body>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <span>☀️</span>
+        <label class="toggle-switch">
+            <input type="checkbox" id="themeToggle" checked />
+            <span class="toggle-slider"></span>
+        </label>
+        <span>🌙</span>
+    </div>
+
     <div class="container">
         <h1>Logi<span>Shield</span></h1>
         <p class="subtitle">AI-powered shipping route risk analyzer. Enter a route to get an instant assessment.</p>
@@ -697,17 +776,24 @@
             </div>
         </div>
 
-        <div class="chat-box" id="chatBox">
-            <div class="chat-header">💬 Ask a follow-up question about this route</div>
-            <div class="chat-messages" id="chatMessages"></div>
-            <div class="chat-typing" id="chatTyping">Claude is typing...</div>
-            <div class="chat-input-row">
-                <input type="text" id="chatInput" placeholder="e.g. What's a safer alternative route?" />
-                <button onclick="sendChat()">Send</button>
-            </div>
-        </div>
-
         <footer>For informational and educational purposes only. Not financial or operational advice.</footer>
+    </div>
+
+    <!-- Floating Chat FAB -->
+    <button class="chat-fab" id="chatFab" onclick="toggleChat()">💬</button>
+
+    <!-- Floating Chat Widget -->
+    <div class="chat-box" id="chatBox">
+        <div class="chat-header">
+            <span>💬 Ask about this route</span>
+            <button class="chat-close" onclick="toggleChat()">✕</button>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-typing" id="chatTyping">LogiShield AI is typing...</div>
+        <div class="chat-input-row">
+            <input type="text" id="chatInput" placeholder="e.g. What's a safer alternative?" />
+            <button onclick="sendChat()">Send</button>
+        </div>
     </div>
 
     <script>
@@ -782,13 +868,14 @@
             const btn = document.getElementById('assessBtn');
             const loading = document.getElementById('loading');
             const card = document.getElementById('resultCard');
-            const chatBox = document.getElementById('chatBox');
+            const chatFab = document.getElementById('chatFab');
             const errorMsg = document.getElementById('errorMsg');
 
             btn.disabled = true;
             loading.style.display = 'block';
             card.style.display = 'none';
-            chatBox.style.display = 'none';
+            chatFab.classList.remove('visible');
+            document.getElementById('chatBox').classList.remove('open');
             errorMsg.style.display = 'none';
             chatHistory = [];
             document.getElementById('chatMessages').innerHTML = '';
@@ -863,7 +950,7 @@
                 }
 
                 card.style.display = 'block';
-                chatBox.style.display = 'flex';
+                chatFab.classList.add('visible');
 
             } catch (err) {
                 errorMsg.textContent = '❌ Error: ' + err.message;
@@ -930,6 +1017,32 @@
 
         document.getElementById('chatInput').addEventListener('keydown', e => {
             if (e.key === 'Enter') sendChat();
+        });
+
+        // Floating chat toggle
+        function toggleChat() {
+            const chatBox = document.getElementById('chatBox');
+            chatBox.classList.toggle('open');
+            if (chatBox.classList.contains('open')) {
+                document.getElementById('chatInput').focus();
+            }
+        }
+
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('logishield-theme');
+        if (savedTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            themeToggle.checked = false;
+        }
+        themeToggle.addEventListener('change', () => {
+            if (themeToggle.checked) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('logishield-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('logishield-theme', 'light');
+            }
         });
     </script>
 </body>
