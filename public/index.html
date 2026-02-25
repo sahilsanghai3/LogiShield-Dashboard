@@ -26,7 +26,7 @@
 
         .container {
             width: 100%;
-            max-width: 680px;
+            max-width: 720px;
         }
 
         h1 {
@@ -96,12 +96,73 @@
             padding: 28px;
             border: 1px solid #2a2d3a;
             display: none;
+            margin-bottom: 20px;
+        }
+
+        /* Port Images */
+        .port-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .port-image-card {
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #2a2d3a;
+        }
+
+        .port-image-card img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .port-image-placeholder {
+            width: 100%;
+            height: 130px;
+            background: #0f1117;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .port-image-label {
+            padding: 8px 10px;
+            background: #12151f;
+            font-size: 0.78rem;
+            color: #aaa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .port-image-label strong {
+            color: #fff;
+            font-size: 0.82rem;
+        }
+
+        .port-credit {
+            font-size: 0.68rem;
+            color: #444;
+        }
+
+        .port-credit a {
+            color: #444;
+            text-decoration: none;
+        }
+
+        .port-credit a:hover {
+            color: #666;
         }
 
         .verdict {
             font-size: 1.6rem;
             font-weight: 700;
-            margin-bottom: 14px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -111,15 +172,149 @@
             color: #3ecf8e;
         }
 
+        .verdict.moderate {
+            color: #f5a623;
+        }
+
         .verdict.risk {
             color: #f76f6f;
+        }
+
+        .score-section {
+            margin-bottom: 24px;
+        }
+
+        .score-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .score-label {
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #555;
+        }
+
+        .score-number {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .score-number.safe {
+            color: #3ecf8e;
+        }
+
+        .score-number.moderate {
+            color: #f5a623;
+        }
+
+        .score-number.risk {
+            color: #f76f6f;
+        }
+
+        .score-bar-bg {
+            width: 100%;
+            height: 12px;
+            background: #0f1117;
+            border-radius: 99px;
+            overflow: hidden;
+            border: 1px solid #2a2d3a;
+        }
+
+        .score-bar-fill {
+            height: 100%;
+            border-radius: 99px;
+            width: 0%;
+            transition: width 1s ease;
+        }
+
+        .score-bar-fill.safe {
+            background: linear-gradient(90deg, #1a9e6e, #3ecf8e);
+        }
+
+        .score-bar-fill.moderate {
+            background: linear-gradient(90deg, #c47d0e, #f5a623);
+        }
+
+        .score-bar-fill.risk {
+            background: linear-gradient(90deg, #c0392b, #f76f6f);
+        }
+
+        .score-ticks {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.7rem;
+            color: #444;
         }
 
         .reason {
             font-size: 0.95rem;
             color: #aaa;
             line-height: 1.6;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+        }
+
+        /* Info Boxes */
+        .info-boxes {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .info-box {
+            background: #0f1117;
+            border: 1px solid #2a2d3a;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .info-box.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .info-box-icon {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+
+        .info-box-title {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .info-box-value {
+            font-size: 0.92rem;
+            color: #ddd;
+            line-height: 1.5;
+        }
+
+        .info-box-value strong {
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .transhipment-ports {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .transhipment-tag {
+            background: #1a1d27;
+            border: 1px solid #2a2d3a;
+            border-radius: 20px;
+            padding: 3px 10px;
+            font-size: 0.78rem;
+            color: #aaa;
         }
 
         .factors-title {
@@ -134,6 +329,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
+            margin-bottom: 24px;
         }
 
         .factor-tag {
@@ -143,6 +339,55 @@
             padding: 5px 14px;
             font-size: 0.82rem;
             color: #ccc;
+        }
+
+        .news-section {
+            border-top: 1px solid #2a2d3a;
+            padding-top: 16px;
+        }
+
+        .news-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #555;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .news-badge {
+            background: #1a3a1a;
+            color: #3ecf8e;
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            border-radius: 99px;
+            border: 1px solid #3ecf8e44;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .news-item {
+            font-size: 0.82rem;
+            color: #777;
+            line-height: 1.4;
+            padding: 6px 10px;
+            background: #0f1117;
+            border-radius: 8px;
+            border-left: 2px solid #2a2d3a;
+        }
+
+        .news-item span {
+            color: #444;
+            font-size: 0.75rem;
+            margin-left: 6px;
         }
 
         .loading {
@@ -160,11 +405,125 @@
             display: none;
         }
 
+        .chat-box {
+            background: #1a1d27;
+            border-radius: 14px;
+            border: 1px solid #2a2d3a;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .chat-header {
+            padding: 14px 20px;
+            background: #12151f;
+            border-bottom: 1px solid #2a2d3a;
+            font-size: 0.85rem;
+            color: #4f8ef7;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .chat-messages {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 320px;
+            overflow-y: auto;
+        }
+
+        .message {
+            display: flex;
+            flex-direction: column;
+            max-width: 85%;
+        }
+
+        .message.user {
+            align-self: flex-end;
+        }
+
+        .message.assistant {
+            align-self: flex-start;
+        }
+
+        .message-bubble {
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .message.user .message-bubble {
+            background: #4f8ef7;
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.assistant .message-bubble {
+            background: #0f1117;
+            color: #ddd;
+            border: 1px solid #2a2d3a;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-label {
+            font-size: 0.72rem;
+            color: #555;
+            margin-bottom: 4px;
+            padding: 0 4px;
+        }
+
+        .message.user .message-label {
+            text-align: right;
+        }
+
+        .chat-input-row {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            border-top: 1px solid #2a2d3a;
+            background: #12151f;
+        }
+
+        .chat-input-row input {
+            flex: 1;
+            padding: 10px 14px;
+            font-size: 0.9rem;
+        }
+
+        .chat-input-row button {
+            padding: 10px 18px;
+            font-size: 0.9rem;
+        }
+
+        .chat-typing {
+            font-size: 0.82rem;
+            color: #555;
+            padding: 0 16px 10px;
+            display: none;
+        }
+
         footer {
-            margin-top: 40px;
+            margin-top: 20px;
             font-size: 0.75rem;
             color: #333;
             text-align: center;
+        }
+
+        @media (max-width: 500px) {
+            .info-boxes {
+                grid-template-columns: 1fr;
+            }
+
+            .port-images {
+                grid-template-columns: 1fr;
+            }
+
+            .info-box.full-width {
+                grid-column: 1;
+            }
         }
     </style>
 </head>
@@ -179,20 +538,160 @@
             <button id="assessBtn" onclick="assess()">Assess Risk</button>
         </div>
 
-        <div class="loading" id="loading">⏳ Analyzing route...</div>
+        <div class="loading" id="loading">⏳ Fetching live news & analyzing route...</div>
         <div class="error-msg" id="errorMsg"></div>
 
         <div class="card" id="resultCard">
+
+            <!-- Port Images -->
+            <div class="port-images" id="portImages"></div>
+
+            <!-- Verdict -->
             <div class="verdict" id="verdict"></div>
+
+            <!-- Score Meter -->
+            <div class="score-section">
+                <div class="score-header">
+                    <span class="score-label">Risk Score</span>
+                    <span class="score-number" id="scoreNumber">0/100</span>
+                </div>
+                <div class="score-bar-bg">
+                    <div class="score-bar-fill" id="scoreBarFill"></div>
+                </div>
+                <div class="score-ticks">
+                    <span>0 — Safe</span>
+                    <span>33</span>
+                    <span>66</span>
+                    <span>100 — Critical</span>
+                </div>
+            </div>
+
+            <!-- Reason -->
             <div class="reason" id="reason"></div>
+
+            <!-- Info Boxes -->
+            <div class="info-boxes">
+                <div class="info-box">
+                    <div class="info-box-icon">🚢</div>
+                    <div class="info-box-title">Best Shipping Line</div>
+                    <div class="info-box-value" id="shippingLine">—</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-box-icon">⏱️</div>
+                    <div class="info-box-title">Approx. Transit Time</div>
+                    <div class="info-box-value" id="transitTime">—</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-box-icon">🔀</div>
+                    <div class="info-box-title">Transhipment Ports</div>
+                    <div class="info-box-value" id="transhipment">—</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-box-icon">🗺️</div>
+                    <div class="info-box-title">Route Overview</div>
+                    <div class="info-box-value" id="routeOverview">—</div>
+                </div>
+            </div>
+
+            <!-- Key Risk Factors -->
             <div class="factors-title">Key Risk Factors</div>
             <div class="factors" id="factors"></div>
+
+            <!-- Live News -->
+            <div class="news-section">
+                <div class="news-title">
+                    📡 Live News Used in Analysis
+                    <span class="news-badge">Real-Time</span>
+                </div>
+                <div class="news-list" id="newsList"></div>
+            </div>
+        </div>
+
+        <!-- Chat Box -->
+        <div class="chat-box" id="chatBox">
+            <div class="chat-header">💬 Ask a follow-up question about this route</div>
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="chat-typing" id="chatTyping">Claude is typing...</div>
+            <div class="chat-input-row">
+                <input type="text" id="chatInput" placeholder="e.g. What's a safer alternative route?" />
+                <button onclick="sendChat()">Send</button>
+            </div>
         </div>
 
         <footer>For informational and educational purposes only. Not financial or operational advice.</footer>
     </div>
 
     <script>
+        let currentRoute = '';
+        let currentAssessment = null;
+        let chatHistory = [];
+
+        function getScoreClass(score) {
+            if (score <= 33) return 'safe';
+            if (score <= 66) return 'moderate';
+            return 'risk';
+        }
+
+        function renderPortImages(portImages) {
+            const container = document.getElementById('portImages');
+            container.innerHTML = '';
+            console.log('Port images received:', JSON.stringify(portImages));
+            if (!portImages) return;
+
+            ['port1', 'port2'].forEach(key => {
+                const port = portImages[key];
+                if (!port) return;
+
+                const card = document.createElement('div');
+                card.className = 'port-image-card';
+
+                if (port.image && port.image.url) {
+                    card.innerHTML = `
+            <img src="${port.image.url}" alt="${port.name}"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="port-image-placeholder" style="display:none">🚢</div>
+            <div class="port-image-label">
+              <strong>📍 ${port.name}</strong>
+              <span class="port-credit">
+                <a href="${port.image.creditLink}" target="_blank">${port.image.credit}</a>
+              </span>
+            </div>
+          `;
+                } else {
+                    card.innerHTML = `
+            <div class="port-image-placeholder">🚢</div>
+            <div class="port-image-label"><strong>📍 ${port.name}</strong></div>
+          `;
+                }
+                container.appendChild(card);
+            });
+        }
+
+        function renderInfoBoxes(data) {
+            // Shipping Line
+            document.getElementById('shippingLine').textContent = data.shipping_line || '—';
+
+            // Transit Time
+            document.getElementById('transitTime').innerHTML = `<strong>${data.transit_time || '—'}</strong>`;
+
+            // Transhipment
+            const transhipmentEl = document.getElementById('transhipment');
+            if (data.transhipment) {
+                const count = data.transhipment.count;
+                const ports = data.transhipment.ports || [];
+                transhipmentEl.innerHTML = `<strong>${count} stop${count !== 1 ? 's' : ''}</strong>`;
+                if (ports.length > 0) {
+                    const tagsHtml = ports.map(p => `<span class="transhipment-tag">${p}</span>`).join('');
+                    transhipmentEl.innerHTML += `<div class="transhipment-ports">${tagsHtml}</div>`;
+                }
+            } else {
+                transhipmentEl.textContent = '—';
+            }
+
+            // Route Overview
+            document.getElementById('routeOverview').textContent = data.route_overview || '—';
+        }
+
         async function assess() {
             const route = document.getElementById('routeInput').value.trim();
             if (!route) return;
@@ -200,12 +699,17 @@
             const btn = document.getElementById('assessBtn');
             const loading = document.getElementById('loading');
             const card = document.getElementById('resultCard');
+            const chatBox = document.getElementById('chatBox');
             const errorMsg = document.getElementById('errorMsg');
 
             btn.disabled = true;
             loading.style.display = 'block';
             card.style.display = 'none';
+            chatBox.style.display = 'none';
             errorMsg.style.display = 'none';
+            chatHistory = [];
+            document.getElementById('chatMessages').innerHTML = '';
+            document.getElementById('scoreBarFill').style.width = '0%';
 
             try {
                 const res = await fetch('/assess', {
@@ -215,15 +719,40 @@
                 });
 
                 const data = await res.json();
-
                 if (data.error) throw new Error(data.error);
 
-                const verdictEl = document.getElementById('verdict');
-                verdictEl.className = 'verdict ' + (data.verdict === 'Safe' ? 'safe' : 'risk');
-                verdictEl.innerHTML = (data.verdict === 'Safe' ? '🟢' : '🔴') + ' ' + data.verdict;
+                currentRoute = route;
+                currentAssessment = data;
 
+                const score = data.score || 0;
+                const scoreClass = getScoreClass(score);
+
+                // Port images
+                renderPortImages(data.portImages);
+
+                // Verdict
+                const verdictEl = document.getElementById('verdict');
+                verdictEl.className = 'verdict ' + scoreClass;
+                verdictEl.innerHTML = (scoreClass === 'safe' ? '🟢' : scoreClass === 'moderate' ? '🟡' : '🔴') + ' ' + data.verdict;
+
+                // Score
+                const scoreNumber = document.getElementById('scoreNumber');
+                scoreNumber.className = 'score-number ' + scoreClass;
+                scoreNumber.textContent = score + '/100';
+
+                setTimeout(() => {
+                    const fill = document.getElementById('scoreBarFill');
+                    fill.className = 'score-bar-fill ' + scoreClass;
+                    fill.style.width = score + '%';
+                }, 100);
+
+                // Reason
                 document.getElementById('reason').textContent = data.reason;
 
+                // Info Boxes
+                renderInfoBoxes(data);
+
+                // Factors
                 const factorsEl = document.getElementById('factors');
                 factorsEl.innerHTML = '';
                 data.factors.forEach(f => {
@@ -233,7 +762,31 @@
                     factorsEl.appendChild(tag);
                 });
 
+                // News
+                const newsList = document.getElementById('newsList');
+                newsList.innerHTML = '';
+                if (data.headlines && data.headlines !== 'No recent news found.' && data.headlines !== 'Could not fetch news.') {
+                    const lines = data.headlines.split('\n').filter(l => l.trim());
+                    lines.forEach(line => {
+                        const item = document.createElement('div');
+                        item.className = 'news-item';
+                        const match = line.match(/^- (.+) \((\d{4}-\d{2}-\d{2})\)$/);
+                        if (match) {
+                            item.innerHTML = match[1] + '<span>' + match[2] + '</span>';
+                        } else {
+                            item.textContent = line.replace(/^- /, '');
+                        }
+                        newsList.appendChild(item);
+                    });
+                } else {
+                    const item = document.createElement('div');
+                    item.className = 'news-item';
+                    item.textContent = 'No recent news found for this route.';
+                    newsList.appendChild(item);
+                }
+
                 card.style.display = 'block';
+                chatBox.style.display = 'flex';
 
             } catch (err) {
                 errorMsg.textContent = '❌ Error: ' + err.message;
@@ -244,8 +797,62 @@
             }
         }
 
-        document.getElementById('routeInput').addEventListener('keydown', function (e) {
+        async function sendChat() {
+            const input = document.getElementById('chatInput');
+            const userMessage = input.value.trim();
+            if (!userMessage || !currentAssessment) return;
+
+            input.value = '';
+            addMessage('user', userMessage);
+
+            const typing = document.getElementById('chatTyping');
+            typing.style.display = 'block';
+
+            try {
+                const res = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        route: currentRoute,
+                        assessment: currentAssessment,
+                        history: chatHistory,
+                        userMessage
+                    })
+                });
+
+                const data = await res.json();
+                if (data.error) throw new Error(data.error);
+
+                chatHistory.push({ role: 'user', content: userMessage });
+                chatHistory.push({ role: 'assistant', content: data.reply });
+
+                addMessage('assistant', data.reply);
+
+            } catch (err) {
+                addMessage('assistant', '❌ Error: ' + err.message);
+            } finally {
+                typing.style.display = 'none';
+            }
+        }
+
+        function addMessage(role, text) {
+            const container = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.className = `message ${role}`;
+            div.innerHTML = `
+        <div class="message-label">${role === 'user' ? 'You' : '🤖 LogiShield AI'}</div>
+        <div class="message-bubble">${text}</div>
+      `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        document.getElementById('routeInput').addEventListener('keydown', e => {
             if (e.key === 'Enter') assess();
+        });
+
+        document.getElementById('chatInput').addEventListener('keydown', e => {
+            if (e.key === 'Enter') sendChat();
         });
     </script>
 </body>
