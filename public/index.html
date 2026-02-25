@@ -4,42 +4,57 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="LogiShield – AI-powered maritime shipping route risk analyzer. Real-time news intelligence, risk scoring, and route recommendations." />
     <title>LogiShield – Shipping Route Risk Analyzer</title>
+    <link rel="icon" href="/logo.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
     <style>
         :root {
-            --bg: #0f1117;
-            --bg2: #1a1d27;
-            --bg3: #12151f;
-            --border: #2a2d3a;
-            --text: #e0e0e0;
-            --text2: #aaa;
-            --text3: #888;
-            --text4: #555;
-            --text5: #444;
-            --text6: #333;
-            --heading: #ffffff;
+            --bg: #0a0d14;
+            --bg2: #141821;
+            --bg3: #0f1219;
+            --border: #1f2333;
+            --border2: #2a2f42;
+            --text: #c8cdd8;
+            --text2: #8b92a5;
+            --text3: #6b7280;
+            --text4: #4b5263;
+            --text5: #3b4050;
+            --text6: #2a2f3d;
+            --heading: #f0f2f7;
             --accent: #4f8ef7;
+            --accent2: #6ba3ff;
             --accent-hover: #3a7ae0;
-            --tag-bg: #1a1d27;
-            --info-bg: #0f1117;
+            --accent-glow: rgba(79, 142, 247, 0.12);
+            --tag-bg: #161b28;
+            --info-bg: #0d1018;
+            --safe: #34d399;
+            --moderate: #fbbf24;
+            --risk: #f87171;
+            --gradient: linear-gradient(135deg, #4f8ef7, #7c3aed);
         }
 
         [data-theme="light"] {
-            --bg: #f4f6fb;
+            --bg: #f0f2f8;
             --bg2: #ffffff;
-            --bg3: #e9ecf3;
-            --border: #d0d5df;
-            --text: #1a1d27;
-            --text2: #555;
-            --text3: #666;
-            --text4: #888;
-            --text5: #aaa;
-            --text6: #bbb;
-            --heading: #0f1117;
+            --bg3: #e8ebf2;
+            --border: #d4d8e3;
+            --border2: #c0c5d4;
+            --text: #2a2f3d;
+            --text2: #555d6e;
+            --text3: #6b7280;
+            --text4: #9ca3af;
+            --text5: #b5bbc8;
+            --text6: #cdd2dd;
+            --heading: #0f1219;
             --accent: #3a7ae0;
-            --accent-hover: #2a5fbf;
-            --tag-bg: #e9ecf3;
-            --info-bg: #f0f2f8;
+            --accent2: #2563eb;
+            --accent-hover: #2753b5;
+            --accent-glow: rgba(58, 122, 224, 0.08);
+            --tag-bg: #edf0f7;
+            --info-bg: #f5f7fc;
         }
 
         * {
@@ -49,7 +64,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
             background: var(--bg) url('/bg.png') no-repeat center center fixed;
             background-size: cover;
             color: var(--text);
@@ -57,52 +72,47 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             padding: 20px;
             transition: background-color 0.3s, color 0.3s;
         }
 
-        /* Top-right controls */
+        /* ── Top Controls ── */
         .top-controls {
             position: fixed;
-            top: 18px;
-            right: 20px;
+            top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
             display: flex;
             align-items: center;
-            gap: 14px;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 12px 24px;
+            background: rgba(10, 13, 20, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+
+        [data-theme="light"] .top-controls {
+            background: rgba(240, 242, 248, 0.7);
         }
 
         .theme-toggle {
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        .lang-select {
-            padding: 6px 10px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--bg2);
-            color: var(--text);
-            font-size: 0.82rem;
-            cursor: pointer;
-            outline: none;
-            transition: border 0.2s, background 0.3s;
-        }
-
-        .lang-select:focus {
-            border-color: var(--accent);
+            gap: 6px;
         }
 
         .theme-toggle span {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
         }
 
         .toggle-switch {
             position: relative;
-            width: 48px;
-            height: 26px;
+            width: 42px;
+            height: 22px;
             cursor: pointer;
         }
 
@@ -113,16 +123,16 @@
         .toggle-slider {
             position: absolute;
             inset: 0;
-            background: var(--border);
-            border-radius: 26px;
+            background: var(--border2);
+            border-radius: 22px;
             transition: background 0.3s;
         }
 
         .toggle-slider::before {
             content: '';
             position: absolute;
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             left: 3px;
             top: 3px;
             background: var(--heading);
@@ -135,95 +145,211 @@
         }
 
         .toggle-switch input:checked+.toggle-slider::before {
-            transform: translateX(22px);
+            transform: translateX(20px);
         }
 
-        .container {
-            width: 100%;
-            max-width: 720px;
-            background: rgba(15, 17, 23, 0.82);
-            padding: 32px;
-            border-radius: 18px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: background 0.3s;
-        }
-
-        [data-theme="light"] .container {
-            background: rgba(255, 255, 255, 0.85);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-        }
-
-        h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: var(--heading);
-        }
-
-        h1 span {
-            color: var(--accent);
-        }
-
-        p.subtitle {
-            color: var(--text3);
-            margin-bottom: 32px;
-            font-size: 0.95rem;
-        }
-
-        .input-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 28px;
-        }
-
-        input {
-            flex: 1;
-            padding: 14px 18px;
-            border-radius: 10px;
+        .lang-select {
+            padding: 5px 10px;
+            border-radius: 6px;
             border: 1px solid var(--border);
             background: var(--bg2);
-            color: var(--heading);
-            font-size: 1rem;
+            color: var(--text);
+            font-size: 0.78rem;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
             outline: none;
             transition: border 0.2s, background 0.3s;
         }
 
-        input:focus {
+        .lang-select:focus {
             border-color: var(--accent);
         }
 
-        button {
-            padding: 14px 24px;
-            background: var(--accent);
+        /* ── Container ── */
+        .container {
+            width: 100%;
+            max-width: 760px;
+            margin-top: 70px;
+            background: rgba(14, 18, 27, 0.88);
+            padding: 0;
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: background 0.3s;
+        }
+
+        [data-theme="light"] .container {
+            background: rgba(255, 255, 255, 0.92);
+        }
+
+        /* ── Hero Section ── */
+        .hero {
+            padding: 40px 36px 32px;
+            background: linear-gradient(180deg, var(--accent-glow) 0%, transparent 100%);
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .hero-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .hero-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+        }
+
+        .hero-brand h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--heading);
+        }
+
+        .hero-brand h1 span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-tagline {
+            font-size: 0.92rem;
+            color: var(--text2);
+            line-height: 1.6;
+            max-width: 520px;
+            margin: 0 auto 20px;
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            border-radius: 99px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            border: 1px solid var(--border);
+            background: var(--bg2);
+            color: var(--text2);
+            transition: background 0.3s;
+        }
+
+        .hero-badge svg {
+            width: 13px;
+            height: 13px;
+        }
+
+        /* ── Input ── */
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-row input {
+            flex: 1;
+            padding: 13px 18px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--bg2);
+            color: var(--heading);
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border 0.2s, box-shadow 0.2s, background 0.3s;
+        }
+
+        .input-row input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .input-row button {
+            padding: 13px 26px;
+            background: var(--gradient);
             color: #fff;
             border: none;
-            border-radius: 10px;
-            font-size: 1rem;
+            border-radius: 12px;
+            font-size: 0.92rem;
             font-weight: 600;
+            font-family: 'Inter', sans-serif;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: opacity 0.2s, transform 0.1s;
             white-space: nowrap;
         }
 
-        button:hover {
-            background: var(--accent-hover);
+        .input-row button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
         }
 
-        button:disabled {
-            background: var(--border);
+        .input-row button:active {
+            transform: translateY(0);
+        }
+
+        .input-row button:disabled {
+            opacity: 0.4;
             cursor: not-allowed;
+            transform: none;
         }
 
-        .card {
-            background: var(--bg2);
-            border-radius: 14px;
-            padding: 28px;
-            border: 1px solid var(--border);
+        /* ── Content Area ── */
+        .content-area {
+            padding: 28px 36px 36px;
+        }
+
+        .loading {
+            text-align: center;
+            color: var(--text3);
+            font-size: 0.9rem;
             display: none;
-            margin-bottom: 20px;
-            transition: background 0.3s;
+            padding: 20px 0;
+        }
+
+        .loading .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error-msg {
+            color: var(--risk);
+            font-size: 0.88rem;
+            padding: 12px 0;
+            display: none;
+        }
+
+        /* ── Result Card ── */
+        .card {
+            display: none;
         }
 
         .port-images {
@@ -234,9 +360,14 @@
         }
 
         .port-image-card {
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
             border: 1px solid var(--border);
+            transition: border-color 0.3s;
+        }
+
+        .port-image-card:hover {
+            border-color: var(--border2);
         }
 
         .port-image-card img {
@@ -253,13 +384,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
         }
 
         .port-image-label {
-            padding: 8px 10px;
+            padding: 8px 12px;
             background: var(--bg3);
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             color: var(--text2);
             display: flex;
             justify-content: space-between;
@@ -268,25 +399,25 @@
 
         .port-image-label strong {
             color: var(--heading);
-            font-size: 0.82rem;
+            font-size: 0.8rem;
         }
 
         .port-credit {
-            font-size: 0.68rem;
-            color: var(--text5);
+            font-size: 0.65rem;
+            color: var(--text4);
         }
 
         .port-credit a {
-            color: var(--text5);
+            color: var(--text4);
             text-decoration: none;
         }
 
         .port-credit a:hover {
-            color: var(--text3);
+            color: var(--text2);
         }
 
         .verdict {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 20px;
             display: flex;
@@ -295,15 +426,15 @@
         }
 
         .verdict.safe {
-            color: #3ecf8e;
+            color: var(--safe);
         }
 
         .verdict.moderate {
-            color: #f5a623;
+            color: var(--moderate);
         }
 
         .verdict.risk {
-            color: #f76f6f;
+            color: var(--risk);
         }
 
         .score-section {
@@ -318,10 +449,11 @@
         }
 
         .score-label {
-            font-size: 0.82rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
             color: var(--text4);
+            font-weight: 600;
         }
 
         .score-number {
@@ -330,20 +462,20 @@
         }
 
         .score-number.safe {
-            color: #3ecf8e;
+            color: var(--safe);
         }
 
         .score-number.moderate {
-            color: #f5a623;
+            color: var(--moderate);
         }
 
         .score-number.risk {
-            color: #f76f6f;
+            color: var(--risk);
         }
 
         .score-bar-bg {
             width: 100%;
-            height: 12px;
+            height: 10px;
             background: var(--bg);
             border-radius: 99px;
             overflow: hidden;
@@ -354,36 +486,37 @@
             height: 100%;
             border-radius: 99px;
             width: 0%;
-            transition: width 1s ease;
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .score-bar-fill.safe {
-            background: linear-gradient(90deg, #1a9e6e, #3ecf8e);
+            background: linear-gradient(90deg, #059669, #34d399);
         }
 
         .score-bar-fill.moderate {
-            background: linear-gradient(90deg, #c47d0e, #f5a623);
+            background: linear-gradient(90deg, #d97706, #fbbf24);
         }
 
         .score-bar-fill.risk {
-            background: linear-gradient(90deg, #c0392b, #f76f6f);
+            background: linear-gradient(90deg, #dc2626, #f87171);
         }
 
         .score-ticks {
             display: flex;
             justify-content: space-between;
             margin-top: 5px;
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             color: var(--text5);
         }
 
         .reason {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text2);
-            line-height: 1.6;
+            line-height: 1.7;
             margin-bottom: 24px;
         }
 
+        /* ── Info Boxes ── */
         .info-boxes {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -394,38 +527,44 @@
         .info-box {
             background: var(--info-bg);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: 14px;
+            padding: 18px;
+            transition: border-color 0.2s, background 0.3s;
+        }
+
+        .info-box:hover {
+            border-color: var(--border2);
         }
 
         .info-box-icon {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 8px;
         }
 
         .info-box-title {
-            font-size: 0.72rem;
+            font-size: 0.68rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
             color: var(--text4);
             margin-bottom: 6px;
+            font-weight: 600;
         }
 
         .info-box-value {
-            font-size: 0.92rem;
+            font-size: 0.88rem;
             color: var(--text);
             line-height: 1.5;
         }
 
         .info-box-value strong {
             color: var(--heading);
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         .transhipment-ports {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 5px;
             margin-top: 6px;
         }
 
@@ -434,16 +573,18 @@
             border: 1px solid var(--border);
             border-radius: 20px;
             padding: 3px 10px;
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             color: var(--text2);
         }
 
-        .factors-title {
-            font-size: 0.8rem;
+        /* ── Factors ── */
+        .section-title {
+            font-size: 0.72rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
             color: var(--text4);
             margin-bottom: 10px;
+            font-weight: 600;
         }
 
         .factors {
@@ -457,70 +598,80 @@
             background: var(--info-bg);
             border: 1px solid var(--border);
             border-radius: 20px;
-            padding: 5px 14px;
-            font-size: 0.82rem;
+            padding: 6px 14px;
+            font-size: 0.78rem;
             color: var(--text);
+            transition: border-color 0.2s;
         }
 
+        .factor-tag:hover {
+            border-color: var(--accent);
+        }
+
+        /* ── News ── */
         .news-section {
             border-top: 1px solid var(--border);
-            padding-top: 16px;
+            padding-top: 20px;
         }
 
         .news-title {
-            font-size: 0.8rem;
+            font-size: 0.72rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
             color: var(--text4);
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            font-weight: 600;
         }
 
         .news-badge {
-            background: #1a3a1a;
-            color: #3ecf8e;
-            font-size: 0.65rem;
+            background: rgba(52, 211, 153, 0.1);
+            color: var(--safe);
+            font-size: 0.62rem;
             padding: 2px 8px;
             border-radius: 99px;
-            border: 1px solid #3ecf8e44;
+            border: 1px solid rgba(52, 211, 153, 0.2);
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-weight: 600;
         }
 
         .news-list {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
         }
 
         .news-item {
             display: block;
             text-decoration: none;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             color: var(--text3);
-            line-height: 1.4;
-            padding: 10px 12px;
+            line-height: 1.5;
+            padding: 12px 14px;
             background: var(--info-bg);
-            border-radius: 8px;
-            border-left: 2px solid var(--border);
-            transition: border-color 0.2s, background 0.2s;
+            border-radius: 10px;
+            border-left: 3px solid var(--border);
+            transition: border-color 0.2s, background 0.2s, transform 0.2s;
         }
 
         .news-item:hover {
             border-left-color: var(--accent);
             background: var(--bg3);
             cursor: pointer;
+            transform: translateX(2px);
         }
 
         .news-item-title {
             color: var(--text);
             margin-bottom: 4px;
+            font-weight: 500;
         }
 
         .news-item-meta {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: var(--text5);
         }
 
@@ -528,22 +679,17 @@
             color: var(--accent);
         }
 
-        .loading {
+        /* ── Footer ── */
+        .footer-bar {
+            padding: 16px 36px;
+            border-top: 1px solid var(--border);
+            font-size: 0.72rem;
+            color: var(--text5);
             text-align: center;
-            color: var(--text4);
-            font-size: 0.95rem;
-            display: none;
-            margin-top: 10px;
+            background: var(--accent-glow);
         }
 
-        .error-msg {
-            color: #f76f6f;
-            font-size: 0.9rem;
-            margin-top: 10px;
-            display: none;
-        }
-
-        /* Floating Chat Widget */
+        /* ── Floating Chat ── */
         .chat-fab {
             position: fixed;
             bottom: 24px;
@@ -552,21 +698,21 @@
             width: 56px;
             height: 56px;
             border-radius: 50%;
-            background: var(--accent);
+            background: var(--gradient);
             color: #fff;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             cursor: pointer;
             display: none;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 16px rgba(79, 142, 247, 0.35);
-            transition: transform 0.2s, background 0.2s;
+            box-shadow: 0 4px 20px rgba(79, 142, 247, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .chat-fab:hover {
-            transform: scale(1.1);
-            background: var(--accent-hover);
+            transform: scale(1.08);
+            box-shadow: 0 6px 28px rgba(79, 142, 247, 0.4);
         }
 
         .chat-fab.visible {
@@ -578,15 +724,15 @@
             bottom: 90px;
             right: 24px;
             z-index: 1000;
-            width: 370px;
+            width: 380px;
             max-height: 480px;
             background: var(--bg2);
-            border-radius: 16px;
+            border-radius: 18px;
             border: 1px solid var(--border);
             display: none;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
             transition: background 0.3s;
         }
 
@@ -598,10 +744,9 @@
             padding: 14px 20px;
             background: var(--bg3);
             border-bottom: 1px solid var(--border);
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: var(--accent);
             font-weight: 600;
-            letter-spacing: 0.5px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -611,7 +756,7 @@
             background: none;
             border: none;
             color: var(--text4);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             cursor: pointer;
             padding: 0 4px;
         }
@@ -647,7 +792,7 @@
         .message-bubble {
             padding: 10px 14px;
             border-radius: 12px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             line-height: 1.5;
         }
 
@@ -665,7 +810,7 @@
         }
 
         .message-label {
-            font-size: 0.72rem;
+            font-size: 0.68rem;
             color: var(--text4);
             margin-bottom: 4px;
             padding: 0 4px;
@@ -686,29 +831,62 @@
         .chat-input-row input {
             flex: 1;
             padding: 10px 14px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg2);
+            color: var(--heading);
+            font-family: 'Inter', sans-serif;
+            outline: none;
+        }
+
+        .chat-input-row input:focus {
+            border-color: var(--accent);
         }
 
         .chat-input-row button {
             padding: 10px 18px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .chat-input-row button:hover {
+            background: var(--accent-hover);
         }
 
         .chat-typing {
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             color: var(--text4);
             padding: 0 16px 10px;
             display: none;
         }
 
-        footer {
-            margin-top: 20px;
-            font-size: 0.75rem;
-            color: var(--text6);
-            text-align: center;
-        }
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .container {
+                margin-top: 60px;
+                border-radius: 14px;
+            }
 
-        @media (max-width: 500px) {
+            .hero {
+                padding: 28px 20px 24px;
+            }
+
+            .content-area {
+                padding: 20px;
+            }
+
+            .info-boxes,
+            .port-images {
+                grid-template-columns: 1fr;
+            }
+
             .chat-box {
                 width: calc(100vw - 32px);
                 right: 16px;
@@ -720,19 +898,23 @@
                 right: 16px;
             }
 
-            .info-boxes {
-                grid-template-columns: 1fr;
+            .hero-brand h1 {
+                font-size: 1.4rem;
             }
 
-            .port-images {
-                grid-template-columns: 1fr;
+            .input-row {
+                flex-direction: column;
+            }
+
+            .input-row button {
+                width: 100%;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Top Controls: Language + Theme -->
+    <!-- ── Top Bar ── -->
     <div class="top-controls">
         <select class="lang-select" id="langSelect">
             <option value="en">🇬🇧 English</option>
@@ -762,84 +944,123 @@
     </div>
 
     <div class="container">
-        <h1>Logi<span>Shield</span></h1>
-        <p class="subtitle" data-i18n="subtitle">AI-powered shipping route risk analyzer. Enter a route to get an
-            instant assessment.</p>
-
-        <div class="input-row">
-            <input type="text" id="routeInput" data-i18n-placeholder="inputPlaceholder"
-                placeholder="e.g. Red Sea → Suez Canal" />
-            <button id="assessBtn" onclick="assess()" data-i18n="assessBtn">Assess Risk</button>
-        </div>
-
-        <div class="loading" id="loading" data-i18n="loading">⏳ Fetching live news & analyzing route...</div>
-        <div class="error-msg" id="errorMsg"></div>
-
-        <div class="card" id="resultCard">
-            <div class="port-images" id="portImages"></div>
-            <div class="verdict" id="verdict"></div>
-
-            <div class="score-section">
-                <div class="score-header">
-                    <span class="score-label" data-i18n="riskScore">Risk Score</span>
-                    <span class="score-number" id="scoreNumber">0/100</span>
-                </div>
-                <div class="score-bar-bg">
-                    <div class="score-bar-fill" id="scoreBarFill"></div>
-                </div>
-                <div class="score-ticks">
-                    <span data-i18n="safe">0 — Safe</span>
-                    <span>33</span>
-                    <span>66</span>
-                    <span data-i18n="critical">100 — Critical</span>
-                </div>
+        <!-- ── Hero ── -->
+        <div class="hero">
+            <div class="hero-brand">
+                <img src="/logo.png" alt="LogiShield" class="hero-logo" />
+                <h1>Logi<span>Shield</span></h1>
+            </div>
+            <p class="hero-tagline" data-i18n="subtitle">
+                Real-time maritime intelligence powered by AI. Analyze any shipping route for geopolitical risks,
+                weather hazards, and operational threats — backed by live news data.
+            </p>
+            <div class="hero-badges">
+                <span class="hero-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                    </svg>
+                    AI-Powered
+                </span>
+                <span class="hero-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    Real-Time News
+                </span>
+                <span class="hero-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                    Risk Intelligence
+                </span>
+                <span class="hero-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <path
+                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                    </svg>
+                    Global Coverage
+                </span>
             </div>
 
-            <div class="reason" id="reason"></div>
-
-            <div class="info-boxes">
-                <div class="info-box">
-                    <div class="info-box-icon">🚢</div>
-                    <div class="info-box-title" data-i18n="bestShipping">Best Shipping Line</div>
-                    <div class="info-box-value" id="shippingLine">—</div>
-                </div>
-                <div class="info-box">
-                    <div class="info-box-icon">⏱️</div>
-                    <div class="info-box-title" data-i18n="transitTime">Approx. Transit Time</div>
-                    <div class="info-box-value" id="transitTime">—</div>
-                </div>
-                <div class="info-box">
-                    <div class="info-box-icon">🔀</div>
-                    <div class="info-box-title" data-i18n="transhipment">Transhipment Ports</div>
-                    <div class="info-box-value" id="transhipment">—</div>
-                </div>
-                <div class="info-box">
-                    <div class="info-box-icon">🗺️</div>
-                    <div class="info-box-title" data-i18n="routeOverview">Route Overview</div>
-                    <div class="info-box-value" id="routeOverview">—</div>
-                </div>
-            </div>
-
-            <div class="factors-title" data-i18n="keyFactors">Key Risk Factors</div>
-            <div class="factors" id="factors"></div>
-
-            <div class="news-section">
-                <div class="news-title">
-                    📡 <span data-i18n="liveNews">Live News Used in Analysis</span>
-                    <span class="news-badge" data-i18n="realTime">Real-Time</span>
-                </div>
-                <div class="news-list" id="newsList"></div>
+            <div class="input-row">
+                <input type="text" id="routeInput" data-i18n-placeholder="inputPlaceholder"
+                    placeholder="Enter a shipping route — e.g. Shanghai → Rotterdam" />
+                <button id="assessBtn" onclick="assess()" data-i18n="assessBtn">Assess Risk</button>
             </div>
         </div>
 
-        <footer data-i18n="footer">For informational and educational purposes only. Not financial or operational advice.
-        </footer>
+        <!-- ── Content ── -->
+        <div class="content-area">
+            <div class="loading" id="loading" data-i18n="loading"><span class="spinner"></span> Fetching live news &
+                analyzing route...</div>
+            <div class="error-msg" id="errorMsg"></div>
+
+            <div class="card" id="resultCard">
+                <div class="port-images" id="portImages"></div>
+                <div class="verdict" id="verdict"></div>
+
+                <div class="score-section">
+                    <div class="score-header">
+                        <span class="score-label" data-i18n="riskScore">Risk Score</span>
+                        <span class="score-number" id="scoreNumber">0/100</span>
+                    </div>
+                    <div class="score-bar-bg">
+                        <div class="score-bar-fill" id="scoreBarFill"></div>
+                    </div>
+                    <div class="score-ticks">
+                        <span data-i18n="safe">0 — Safe</span>
+                        <span>33</span><span>66</span>
+                        <span data-i18n="critical">100 — Critical</span>
+                    </div>
+                </div>
+
+                <div class="reason" id="reason"></div>
+
+                <div class="info-boxes">
+                    <div class="info-box">
+                        <div class="info-box-icon">🚢</div>
+                        <div class="info-box-title" data-i18n="bestShipping">Best Shipping Line</div>
+                        <div class="info-box-value" id="shippingLine">—</div>
+                    </div>
+                    <div class="info-box">
+                        <div class="info-box-icon">⏱️</div>
+                        <div class="info-box-title" data-i18n="transitTime">Approx. Transit Time</div>
+                        <div class="info-box-value" id="transitTime">—</div>
+                    </div>
+                    <div class="info-box">
+                        <div class="info-box-icon">🔀</div>
+                        <div class="info-box-title" data-i18n="transhipment">Transhipment Ports</div>
+                        <div class="info-box-value" id="transhipment">—</div>
+                    </div>
+                    <div class="info-box">
+                        <div class="info-box-icon">🗺️</div>
+                        <div class="info-box-title" data-i18n="routeOverview">Route Overview</div>
+                        <div class="info-box-value" id="routeOverview">—</div>
+                    </div>
+                </div>
+
+                <div class="section-title" data-i18n="keyFactors">Key Risk Factors</div>
+                <div class="factors" id="factors"></div>
+
+                <div class="news-section">
+                    <div class="news-title">
+                        📡 <span data-i18n="liveNews">Live News Used in Analysis</span>
+                        <span class="news-badge" data-i18n="realTime">Real-Time</span>
+                    </div>
+                    <div class="news-list" id="newsList"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bar" data-i18n="footer">For informational and educational purposes only. Not financial or
+            operational advice.</div>
     </div>
 
-    <!-- Floating Chat FAB -->
+    <!-- Floating Chat -->
     <button class="chat-fab" id="chatFab" onclick="toggleChat()">💬</button>
-
-    <!-- Floating Chat Widget -->
     <div class="chat-box" id="chatBox">
         <div class="chat-header">
             <span data-i18n="chatHeader">💬 Ask about this route</span>
@@ -868,31 +1089,24 @@
             const container = document.getElementById('portImages');
             container.innerHTML = '';
             if (!portImages) return;
-
             ['port1', 'port2'].forEach(key => {
                 const port = portImages[key];
                 if (!port) return;
-
                 const card = document.createElement('div');
                 card.className = 'port-image-card';
-
                 if (port.image && port.image.url) {
                     card.innerHTML = `
-            <img src="${port.image.url}" alt="${port.name}"
-              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <div class="port-image-placeholder" style="display:none">🚢</div>
-            <div class="port-image-label">
-              <strong>📍 ${port.name}</strong>
-              <span class="port-credit">
-                <a href="${port.image.creditLink}" target="_blank">${port.image.credit}</a>
-              </span>
-            </div>
-          `;
+                        <img src="${port.image.url}" alt="${port.name}"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                        <div class="port-image-placeholder" style="display:none">🚢</div>
+                        <div class="port-image-label">
+                            <strong>📍 ${port.name}</strong>
+                            <span class="port-credit"><a href="${port.image.creditLink}" target="_blank">${port.image.credit}</a></span>
+                        </div>`;
                 } else {
                     card.innerHTML = `
-            <div class="port-image-placeholder">🚢</div>
-            <div class="port-image-label"><strong>📍 ${port.name}</strong></div>
-          `;
+                        <div class="port-image-placeholder">🚢</div>
+                        <div class="port-image-label"><strong>📍 ${port.name}</strong></div>`;
                 }
                 container.appendChild(card);
             });
@@ -901,7 +1115,6 @@
         function renderInfoBoxes(data) {
             document.getElementById('shippingLine').textContent = data.shipping_line || '—';
             document.getElementById('transitTime').innerHTML = `<strong>${data.transit_time || '—'}</strong>`;
-
             const transhipmentEl = document.getElementById('transhipment');
             if (data.transhipment) {
                 const count = data.transhipment.count;
@@ -911,17 +1124,13 @@
                     const tagsHtml = ports.map(p => `<span class="transhipment-tag">${p}</span>`).join('');
                     transhipmentEl.innerHTML += `<div class="transhipment-ports">${tagsHtml}</div>`;
                 }
-            } else {
-                transhipmentEl.textContent = '—';
-            }
-
+            } else { transhipmentEl.textContent = '—'; }
             document.getElementById('routeOverview').textContent = data.route_overview || '—';
         }
 
         async function assess() {
             const route = document.getElementById('routeInput').value.trim();
             if (!route) return;
-
             const btn = document.getElementById('assessBtn');
             const loading = document.getElementById('loading');
             const card = document.getElementById('resultCard');
@@ -944,16 +1153,13 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ route })
                 });
-
                 const data = await res.json();
                 if (data.error) throw new Error(data.error);
 
                 currentRoute = route;
                 currentAssessment = data;
-
                 const score = data.score || 0;
                 const scoreClass = getScoreClass(score);
-
                 renderPortImages(data.portImages);
 
                 const verdictEl = document.getElementById('verdict');
@@ -971,7 +1177,6 @@
                 }, 100);
 
                 document.getElementById('reason').textContent = data.reason;
-
                 renderInfoBoxes(data);
 
                 const factorsEl = document.getElementById('factors');
@@ -983,7 +1188,6 @@
                     factorsEl.appendChild(tag);
                 });
 
-                // News with clickable links
                 const newsList = document.getElementById('newsList');
                 newsList.innerHTML = '';
                 if (data.newsArticles && data.newsArticles.length > 0) {
@@ -994,9 +1198,8 @@
                         item.target = '_blank';
                         item.rel = 'noopener noreferrer';
                         item.innerHTML = `
-              <div class="news-item-title">${article.title}</div>
-              <div class="news-item-meta">${article.source} · ${article.date} · <span class="news-link">Read →</span></div>
-            `;
+                            <div class="news-item-title">${article.title}</div>
+                            <div class="news-item-meta">${article.source} · ${article.date} · <span class="news-link">Read →</span></div>`;
                         newsList.appendChild(item);
                     });
                 } else {
@@ -1022,38 +1225,24 @@
             const input = document.getElementById('chatInput');
             const userMessage = input.value.trim();
             if (!userMessage || !currentAssessment) return;
-
             input.value = '';
             addMessage('user', userMessage);
-
             const typing = document.getElementById('chatTyping');
             typing.style.display = 'block';
-
             try {
                 const res = await fetch('/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        route: currentRoute,
-                        assessment: currentAssessment,
-                        history: chatHistory,
-                        userMessage
-                    })
+                    body: JSON.stringify({ route: currentRoute, assessment: currentAssessment, history: chatHistory, userMessage })
                 });
-
                 const data = await res.json();
                 if (data.error) throw new Error(data.error);
-
                 chatHistory.push({ role: 'user', content: userMessage });
                 chatHistory.push({ role: 'assistant', content: data.reply });
-
                 addMessage('assistant', data.reply);
-
             } catch (err) {
                 addMessage('assistant', '❌ Error: ' + err.message);
-            } finally {
-                typing.style.display = 'none';
-            }
+            } finally { typing.style.display = 'none'; }
         }
 
         function addMessage(role, text) {
@@ -1061,64 +1250,47 @@
             const div = document.createElement('div');
             div.className = `message ${role}`;
             div.innerHTML = `
-        <div class="message-label">${role === 'user' ? 'You' : '🤖 LogiShield AI'}</div>
-        <div class="message-bubble">${text}</div>
-      `;
+                <div class="message-label">${role === 'user' ? 'You' : '🤖 LogiShield AI'}</div>
+                <div class="message-bubble">${text}</div>`;
             container.appendChild(div);
             container.scrollTop = container.scrollHeight;
         }
 
-        document.getElementById('routeInput').addEventListener('keydown', e => {
-            if (e.key === 'Enter') assess();
-        });
+        document.getElementById('routeInput').addEventListener('keydown', e => { if (e.key === 'Enter') assess(); });
+        document.getElementById('chatInput').addEventListener('keydown', e => { if (e.key === 'Enter') sendChat(); });
 
-        document.getElementById('chatInput').addEventListener('keydown', e => {
-            if (e.key === 'Enter') sendChat();
-        });
-
-        // Floating chat toggle
         function toggleChat() {
             const chatBox = document.getElementById('chatBox');
             chatBox.classList.toggle('open');
-            if (chatBox.classList.contains('open')) {
-                document.getElementById('chatInput').focus();
-            }
+            if (chatBox.classList.contains('open')) document.getElementById('chatInput').focus();
         }
 
         // Theme toggle
         const themeToggle = document.getElementById('themeToggle');
         const savedTheme = localStorage.getItem('logishield-theme');
-        if (savedTheme === 'light') {
-            document.documentElement.setAttribute('data-theme', 'light');
-            themeToggle.checked = false;
-        }
+        if (savedTheme === 'light') { document.documentElement.setAttribute('data-theme', 'light'); themeToggle.checked = false; }
         themeToggle.addEventListener('change', () => {
-            if (themeToggle.checked) {
-                document.documentElement.removeAttribute('data-theme');
-                localStorage.setItem('logishield-theme', 'dark');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'light');
-                localStorage.setItem('logishield-theme', 'light');
-            }
+            if (themeToggle.checked) { document.documentElement.removeAttribute('data-theme'); localStorage.setItem('logishield-theme', 'dark'); }
+            else { document.documentElement.setAttribute('data-theme', 'light'); localStorage.setItem('logishield-theme', 'light'); }
         });
 
         // ── Language translations ──
         const translations = {
-            en: { subtitle: 'AI-powered shipping route risk analyzer. Enter a route to get an instant assessment.', inputPlaceholder: 'e.g. Red Sea → Suez Canal', assessBtn: 'Assess Risk', loading: '⏳ Fetching live news & analyzing route...', riskScore: 'Risk Score', safe: '0 — Safe', critical: '100 — Critical', bestShipping: 'Best Shipping Line', transitTime: 'Approx. Transit Time', transhipment: 'Transhipment Ports', routeOverview: 'Route Overview', keyFactors: 'Key Risk Factors', liveNews: 'Live News Used in Analysis', realTime: 'Real-Time', footer: 'For informational and educational purposes only. Not financial or operational advice.', chatHeader: '💬 Ask about this route', chatPlaceholder: "e.g. What's a safer alternative?" },
-            es: { subtitle: 'Analizador de riesgos de rutas marítimas con IA. Ingrese una ruta para obtener una evaluación.', inputPlaceholder: 'ej. Mar Rojo → Canal de Suez', assessBtn: 'Evaluar Riesgo', loading: '⏳ Obteniendo noticias y analizando ruta...', riskScore: 'Puntuación de Riesgo', safe: '0 — Seguro', critical: '100 — Crítico', bestShipping: 'Mejor Línea Naviera', transitTime: 'Tiempo de Tránsito Aprox.', transhipment: 'Puertos de Transbordo', routeOverview: 'Descripción de Ruta', keyFactors: 'Factores de Riesgo Clave', liveNews: 'Noticias en Vivo del Análisis', realTime: 'Tiempo Real', footer: 'Solo con fines informativos y educativos. No es asesoramiento financiero ni operativo.', chatHeader: '💬 Pregunta sobre esta ruta', chatPlaceholder: 'ej. ¿Hay una ruta más segura?' },
-            fr: { subtitle: 'Analyseur de risques de routes maritimes propulsé par l\'IA. Entrez une route pour une évaluation instantanée.', inputPlaceholder: 'ex. Mer Rouge → Canal de Suez', assessBtn: 'Évaluer le Risque', loading: '⏳ Récupération des nouvelles et analyse de la route...', riskScore: 'Score de Risque', safe: '0 — Sûr', critical: '100 — Critique', bestShipping: 'Meilleure Compagnie Maritime', transitTime: 'Temps de Transit Approx.', transhipment: 'Ports de Transbordement', routeOverview: 'Aperçu de la Route', keyFactors: 'Facteurs de Risque Clés', liveNews: 'Actualités Utilisées dans l\'Analyse', realTime: 'Temps Réel', footer: 'À titre informatif et éducatif uniquement. Pas de conseil financier ou opérationnel.', chatHeader: '💬 Posez une question sur cette route', chatPlaceholder: 'ex. Y a-t-il une route plus sûre ?' },
-            de: { subtitle: 'KI-gestützter Risikoanalysator für Schifffahrtsrouten. Geben Sie eine Route ein.', inputPlaceholder: 'z.B. Rotes Meer → Suezkanal', assessBtn: 'Risiko Bewerten', loading: '⏳ Nachrichten abrufen & Route analysieren...', riskScore: 'Risikobewertung', safe: '0 — Sicher', critical: '100 — Kritisch', bestShipping: 'Beste Reederei', transitTime: 'Ungefähre Transitzeit', transhipment: 'Umschlaghäfen', routeOverview: 'Routenübersicht', keyFactors: 'Wichtige Risikofaktoren', liveNews: 'Live-Nachrichten der Analyse', realTime: 'Echtzeit', footer: 'Nur zu Informations- und Bildungszwecken. Keine finanzielle oder operative Beratung.', chatHeader: '💬 Frage zu dieser Route', chatPlaceholder: 'z.B. Gibt es eine sicherere Route?' },
-            pt: { subtitle: 'Analisador de riscos de rotas marítimas com IA. Insira uma rota para avaliação instantânea.', inputPlaceholder: 'ex. Mar Vermelho → Canal de Suez', assessBtn: 'Avaliar Risco', loading: '⏳ Buscando notícias e analisando rota...', riskScore: 'Pontuação de Risco', safe: '0 — Seguro', critical: '100 — Crítico', bestShipping: 'Melhor Linha de Navegação', transitTime: 'Tempo de Trânsito Aprox.', transhipment: 'Portos de Transbordo', routeOverview: 'Visão Geral da Rota', keyFactors: 'Fatores de Risco Principais', liveNews: 'Notícias Usadas na Análise', realTime: 'Tempo Real', footer: 'Apenas para fins informativos e educacionais. Não é aconselhamento financeiro ou operacional.', chatHeader: '💬 Pergunte sobre esta rota', chatPlaceholder: 'ex. Existe uma rota mais segura?' },
-            it: { subtitle: 'Analizzatore di rischi delle rotte marittime basato su IA. Inserisci una rotta per una valutazione.', inputPlaceholder: 'es. Mar Rosso → Canale di Suez', assessBtn: 'Valuta Rischio', loading: '⏳ Recupero notizie e analisi della rotta...', riskScore: 'Punteggio di Rischio', safe: '0 — Sicuro', critical: '100 — Critico', bestShipping: 'Migliore Compagnia di Navigazione', transitTime: 'Tempo di Transito Appross.', transhipment: 'Porti di Trasbordo', routeOverview: 'Panoramica della Rotta', keyFactors: 'Fattori di Rischio Chiave', liveNews: 'Notizie Utilizzate nell\'Analisi', realTime: 'Tempo Reale', footer: 'Solo a scopo informativo ed educativo. Non è consulenza finanziaria o operativa.', chatHeader: '💬 Chiedi su questa rotta', chatPlaceholder: 'es. C\'è una rotta più sicura?' },
-            nl: { subtitle: 'AI-aangedreven risicoanalyse voor scheepvaartroutes. Voer een route in voor een beoordeling.', inputPlaceholder: 'bijv. Rode Zee → Suezkanaal', assessBtn: 'Risico Beoordelen', loading: '⏳ Nieuws ophalen & route analyseren...', riskScore: 'Risicoscore', safe: '0 — Veilig', critical: '100 — Kritiek', bestShipping: 'Beste Rederij', transitTime: 'Geschatte Transittijd', transhipment: 'Overladhavens', routeOverview: 'Route-overzicht', keyFactors: 'Belangrijkste Risicofactoren', liveNews: 'Live Nieuws Gebruikt in Analyse', realTime: 'Real-Time', footer: 'Alleen voor informatieve en educatieve doeleinden. Geen financieel of operationeel advies.', chatHeader: '💬 Vraag over deze route', chatPlaceholder: 'bijv. Is er een veiligere route?' },
-            ru: { subtitle: 'ИИ-анализатор рисков морских маршрутов. Введите маршрут для мгновенной оценки.', inputPlaceholder: 'напр. Красное море → Суэцкий канал', assessBtn: 'Оценить Риск', loading: '⏳ Получение новостей и анализ маршрута...', riskScore: 'Оценка Риска', safe: '0 — Безопасно', critical: '100 — Критично', bestShipping: 'Лучшая Судоходная Линия', transitTime: 'Примерное Время Транзита', transhipment: 'Перевалочные Порты', routeOverview: 'Обзор Маршрута', keyFactors: 'Ключевые Факторы Риска', liveNews: 'Новости Используемые в Анализе', realTime: 'Реальное Время', footer: 'Только в информационных и образовательных целях. Не является финансовой или операционной консультацией.', chatHeader: '💬 Спросите о маршруте', chatPlaceholder: 'напр. Есть ли более безопасный маршрут?' },
-            zh: { subtitle: 'AI驱动的航运路线风险分析器。输入路线即可获得即时评估。', inputPlaceholder: '例：红海 → 苏伊士运河', assessBtn: '评估风险', loading: '⏳ 获取新闻并分析路线...', riskScore: '风险评分', safe: '0 — 安全', critical: '100 — 危急', bestShipping: '最佳航运公司', transitTime: '大约运输时间', transhipment: '转运港口', routeOverview: '路线概览', keyFactors: '关键风险因素', liveNews: '分析中使用的实时新闻', realTime: '实时', footer: '仅供信息和教育用途，不构成财务或运营建议。', chatHeader: '💬 询问此路线', chatPlaceholder: '例：有更安全的路线吗？' },
-            ja: { subtitle: 'AI搭載の航路リスク分析ツール。ルートを入力して即座に評価を取得。', inputPlaceholder: '例：紅海 → スエズ運河', assessBtn: 'リスク評価', loading: '⏳ ニュースを取得しルートを分析中...', riskScore: 'リスクスコア', safe: '0 — 安全', critical: '100 — 危機的', bestShipping: '最適な船会社', transitTime: 'おおよその輸送時間', transhipment: '積替港', routeOverview: 'ルート概要', keyFactors: '主要リスク要因', liveNews: '分析に使用されたニュース', realTime: 'リアルタイム', footer: '情報提供および教育目的のみ。財務または運営上のアドバイスではありません。', chatHeader: '💬 このルートについて質問', chatPlaceholder: '例：より安全なルートはありますか？' },
-            ko: { subtitle: 'AI 기반 해운 경로 위험 분석기. 경로를 입력하여 즉시 평가를 받으세요.', inputPlaceholder: '예: 홍해 → 수에즈 운하', assessBtn: '위험 평가', loading: '⏳ 뉴스 가져오기 & 경로 분석 중...', riskScore: '위험 점수', safe: '0 — 안전', critical: '100 — 위험', bestShipping: '최적 해운사', transitTime: '대략적 운송 시간', transhipment: '환적 항구', routeOverview: '경로 개요', keyFactors: '주요 위험 요인', liveNews: '분석에 사용된 뉴스', realTime: '실시간', footer: '정보 및 교육 목적으로만 제공됩니다. 재정적 또는 운영상 조언이 아닙니다.', chatHeader: '💬 이 경로에 대해 질문', chatPlaceholder: '예: 더 안전한 경로가 있나요?' },
-            ar: { subtitle: 'محلل مخاطر مسارات الشحن بالذكاء الاصطناعي. أدخل مسارًا للحصول على تقييم فوري.', inputPlaceholder: 'مثال: البحر الأحمر → قناة السويس', assessBtn: 'تقييم المخاطر', loading: '⏳ جلب الأخبار وتحليل المسار...', riskScore: 'درجة المخاطر', safe: '0 — آمن', critical: '100 — حرج', bestShipping: 'أفضل خط شحن', transitTime: 'وقت العبور التقريبي', transhipment: 'موانئ الشحن العابر', routeOverview: 'نظرة عامة على المسار', keyFactors: 'عوامل المخاطر الرئيسية', liveNews: 'الأخبار المستخدمة في التحليل', realTime: 'الوقت الفعلي', footer: 'لأغراض إعلامية وتعليمية فقط. ليست نصيحة مالية أو تشغيلية.', chatHeader: '💬 اسأل عن هذا المسار', chatPlaceholder: 'مثال: هل يوجد مسار أكثر أمانًا؟' },
-            hi: { subtitle: 'AI-संचालित शिपिंग रूट जोखिम विश्लेषक। त्वरित मूल्यांकन के लिए एक मार्ग दर्ज करें।', inputPlaceholder: 'उदा. लाल सागर → स्वेज नहर', assessBtn: 'जोखिम मूल्यांकन', loading: '⏳ समाचार प्राप्त कर रहे हैं और मार्ग का विश्लेषण कर रहे हैं...', riskScore: 'जोखिम स्कोर', safe: '0 — सुरक्षित', critical: '100 — गंभीर', bestShipping: 'सर्वश्रेष्ठ शिपिंग लाइन', transitTime: 'अनुमानित पारगमन समय', transhipment: 'ट्रांसशिपमेंट पोर्ट', routeOverview: 'मार्ग अवलोकन', keyFactors: 'प्रमुख जोखिम कारक', liveNews: 'विश्लेषण में उपयोग की गई समाचार', realTime: 'रीयल-टाइम', footer: 'केवल सूचनात्मक और शैक्षिक उद्देश्यों के लिए। वित्तीय या परिचालन सलाह नहीं है।', chatHeader: '💬 इस मार्ग के बारे में पूछें', chatPlaceholder: 'उदा. क्या कोई सुरक्षित मार्ग है?' },
-            tr: { subtitle: 'Yapay zeka destekli deniz yolu risk analizörü. Anlık değerlendirme için bir rota girin.', inputPlaceholder: 'örn. Kızıldeniz → Süveyş Kanalı', assessBtn: 'Risk Değerlendir', loading: '⏳ Haberler alınıyor ve rota analiz ediliyor...', riskScore: 'Risk Puanı', safe: '0 — Güvenli', critical: '100 — Kritik', bestShipping: 'En İyi Nakliye Hattı', transitTime: 'Yaklaşık Transit Süresi', transhipment: 'Aktarma Limanları', routeOverview: 'Rota Genel Bakış', keyFactors: 'Temel Risk Faktörleri', liveNews: 'Analizde Kullanılan Haberler', realTime: 'Gerçek Zamanlı', footer: 'Yalnızca bilgilendirme ve eğitim amaçlıdır. Mali veya operasyonel tavsiye değildir.', chatHeader: '💬 Bu rota hakkında sorun', chatPlaceholder: 'örn. Daha güvenli bir rota var mı?' },
-            pl: { subtitle: 'Analizator ryzyka tras żeglugowych oparty na AI. Wprowadź trasę, aby uzyskać ocenę.', inputPlaceholder: 'np. Morze Czerwone → Kanał Sueski', assessBtn: 'Oceń Ryzyko', loading: '⏳ Pobieranie wiadomości i analiza trasy...', riskScore: 'Ocena Ryzyka', safe: '0 — Bezpieczny', critical: '100 — Krytyczny', bestShipping: 'Najlepsza Linia Żeglugowa', transitTime: 'Przybliżony Czas Tranzytu', transhipment: 'Porty Przeładunkowe', routeOverview: 'Przegląd Trasy', keyFactors: 'Kluczowe Czynniki Ryzyka', liveNews: 'Wiadomości Użyte w Analizie', realTime: 'Na Żywo', footer: 'Wyłącznie w celach informacyjnych i edukacyjnych. Nie stanowi porady finansowej ani operacyjnej.', chatHeader: '💬 Zapytaj o tę trasę', chatPlaceholder: 'np. Czy jest bezpieczniejsza trasa?' }
+            en: { subtitle: 'Real-time maritime intelligence powered by AI. Analyze any shipping route for geopolitical risks, weather hazards, and operational threats — backed by live news data.', inputPlaceholder: 'Enter a shipping route — e.g. Shanghai → Rotterdam', assessBtn: 'Assess Risk', loading: 'Fetching live news & analyzing route...', riskScore: 'Risk Score', safe: '0 — Safe', critical: '100 — Critical', bestShipping: 'Best Shipping Line', transitTime: 'Approx. Transit Time', transhipment: 'Transhipment Ports', routeOverview: 'Route Overview', keyFactors: 'Key Risk Factors', liveNews: 'Live News Used in Analysis', realTime: 'Real-Time', footer: 'For informational and educational purposes only. Not financial or operational advice.', chatHeader: '💬 Ask about this route', chatPlaceholder: "e.g. What's a safer alternative?" },
+            es: { subtitle: 'Inteligencia marítima en tiempo real impulsada por IA. Analice cualquier ruta de envío para riesgos geopolíticos y amenazas operativas.', inputPlaceholder: 'Ingrese una ruta — ej. Shanghái → Róterdam', assessBtn: 'Evaluar Riesgo', loading: 'Obteniendo noticias y analizando ruta...', riskScore: 'Puntuación de Riesgo', safe: '0 — Seguro', critical: '100 — Crítico', bestShipping: 'Mejor Línea Naviera', transitTime: 'Tiempo de Tránsito', transhipment: 'Puertos de Transbordo', routeOverview: 'Descripción de Ruta', keyFactors: 'Factores de Riesgo', liveNews: 'Noticias en Vivo del Análisis', realTime: 'Tiempo Real', footer: 'Solo con fines informativos y educativos.', chatHeader: '💬 Pregunta sobre esta ruta', chatPlaceholder: 'ej. ¿Hay una ruta más segura?' },
+            fr: { subtitle: 'Intelligence maritime en temps réel propulsée par l\'IA. Analysez toute route pour les risques géopolitiques et menaces opérationnelles.', inputPlaceholder: 'Entrez une route — ex. Shanghai → Rotterdam', assessBtn: 'Évaluer le Risque', loading: 'Récupération des nouvelles et analyse...', riskScore: 'Score de Risque', safe: '0 — Sûr', critical: '100 — Critique', bestShipping: 'Meilleure Compagnie', transitTime: 'Temps de Transit', transhipment: 'Ports de Transbordement', routeOverview: 'Aperçu de la Route', keyFactors: 'Facteurs de Risque', liveNews: 'Actualités Utilisées', realTime: 'Temps Réel', footer: 'À titre informatif et éducatif uniquement.', chatHeader: '💬 Question sur cette route', chatPlaceholder: 'ex. Route plus sûre ?' },
+            de: { subtitle: 'KI-gestützte maritime Echtzeit-Intelligence. Analysieren Sie jede Schifffahrtsroute auf geopolitische Risiken und operative Bedrohungen.', inputPlaceholder: 'Route eingeben — z.B. Shanghai → Rotterdam', assessBtn: 'Risiko Bewerten', loading: 'Nachrichten abrufen & analysieren...', riskScore: 'Risikobewertung', safe: '0 — Sicher', critical: '100 — Kritisch', bestShipping: 'Beste Reederei', transitTime: 'Transitzeit', transhipment: 'Umschlaghäfen', routeOverview: 'Routenübersicht', keyFactors: 'Risikofaktoren', liveNews: 'Nachrichten der Analyse', realTime: 'Echtzeit', footer: 'Nur zu Informationszwecken.', chatHeader: '💬 Frage zur Route', chatPlaceholder: 'z.B. Sicherere Route?' },
+            pt: { subtitle: 'Inteligência marítima em tempo real com IA. Analise qualquer rota de navegação para riscos geopolíticos e ameaças operacionais.', inputPlaceholder: 'Insira uma rota — ex. Xangai → Roterdã', assessBtn: 'Avaliar Risco', loading: 'Buscando notícias e analisando...', riskScore: 'Pontuação de Risco', safe: '0 — Seguro', critical: '100 — Crítico', bestShipping: 'Melhor Linha', transitTime: 'Tempo de Trânsito', transhipment: 'Portos de Transbordo', routeOverview: 'Visão da Rota', keyFactors: 'Fatores de Risco', liveNews: 'Notícias da Análise', realTime: 'Tempo Real', footer: 'Apenas para fins informativos.', chatHeader: '💬 Pergunte', chatPlaceholder: 'ex. Rota mais segura?' },
+            it: { subtitle: 'Intelligence marittima in tempo reale basata su IA. Analizza qualsiasi rotta per rischi geopolitici e minacce operative.', inputPlaceholder: 'Inserisci una rotta — es. Shanghai → Rotterdam', assessBtn: 'Valuta Rischio', loading: 'Recupero notizie e analisi...', riskScore: 'Punteggio di Rischio', safe: '0 — Sicuro', critical: '100 — Critico', bestShipping: 'Migliore Compagnia', transitTime: 'Tempo di Transito', transhipment: 'Porti di Trasbordo', routeOverview: 'Panoramica Rotta', keyFactors: 'Fattori di Rischio', liveNews: 'Notizie dell\'Analisi', realTime: 'Tempo Reale', footer: 'Solo a scopo informativo.', chatHeader: '💬 Chiedi', chatPlaceholder: 'es. Rotta più sicura?' },
+            nl: { subtitle: 'Realtime maritieme intelligence aangedreven door AI. Analyseer scheepvaartroutes op geopolitieke risico\'s en operationele bedreigingen.', inputPlaceholder: 'Voer een route in — bijv. Shanghai → Rotterdam', assessBtn: 'Risico Beoordelen', loading: 'Nieuws ophalen & analyseren...', riskScore: 'Risicoscore', safe: '0 — Veilig', critical: '100 — Kritiek', bestShipping: 'Beste Rederij', transitTime: 'Transittijd', transhipment: 'Overladhavens', routeOverview: 'Route-overzicht', keyFactors: 'Risicofactoren', liveNews: 'Nieuws in Analyse', realTime: 'Real-Time', footer: 'Alleen informatief.', chatHeader: '💬 Vraag', chatPlaceholder: 'bijv. Veiligere route?' },
+            ru: { subtitle: 'Морская разведка в реальном времени на основе ИИ. Анализируйте любой маршрут на геополитические риски и операционные угрозы.', inputPlaceholder: 'Введите маршрут — напр. Шанхай → Роттердам', assessBtn: 'Оценить Риск', loading: 'Получение новостей и анализ...', riskScore: 'Оценка Риска', safe: '0 — Безопасно', critical: '100 — Критично', bestShipping: 'Лучшая Линия', transitTime: 'Время Транзита', transhipment: 'Порты Перевалки', routeOverview: 'Обзор Маршрута', keyFactors: 'Факторы Риска', liveNews: 'Новости Анализа', realTime: 'Реальное Время', footer: 'Только в информационных целях.', chatHeader: '💬 Спросить', chatPlaceholder: 'напр. Безопасный маршрут?' },
+            zh: { subtitle: 'AI驱动的实时海事情报。分析任何航运路线的地缘政治风险和运营威胁。', inputPlaceholder: '输入航线 — 例：上海 → 鹿特丹', assessBtn: '评估风险', loading: '获取新闻并分析路线...', riskScore: '风险评分', safe: '0 — 安全', critical: '100 — 危急', bestShipping: '最佳航运公司', transitTime: '运输时间', transhipment: '转运港口', routeOverview: '路线概览', keyFactors: '风险因素', liveNews: '分析中使用的新闻', realTime: '实时', footer: '仅供参考，不构成建议。', chatHeader: '💬 询问', chatPlaceholder: '例：更安全的路线？' },
+            ja: { subtitle: 'AI搭載のリアルタイム海事インテリジェンス。地政学的リスクや運用上の脅威を分析。', inputPlaceholder: '航路を入力 — 例：上海 → ロッテルダム', assessBtn: 'リスク評価', loading: 'ニュース取得・分析中...', riskScore: 'リスクスコア', safe: '0 — 安全', critical: '100 — 危機的', bestShipping: '最適な船会社', transitTime: '輸送時間', transhipment: '積替港', routeOverview: 'ルート概要', keyFactors: 'リスク要因', liveNews: '分析ニュース', realTime: 'リアルタイム', footer: '情報提供目的のみ。', chatHeader: '💬 質問', chatPlaceholder: '例：安全なルートは？' },
+            ko: { subtitle: 'AI 기반 실시간 해상 정보. 지정학적 위험과 운영 위협에 대한 항로 분석.', inputPlaceholder: '항로 입력 — 예: 상하이 → 로테르담', assessBtn: '위험 평가', loading: '뉴스 가져오기 및 분석 중...', riskScore: '위험 점수', safe: '0 — 안전', critical: '100 — 위험', bestShipping: '최적 해운사', transitTime: '운송 시간', transhipment: '환적 항구', routeOverview: '경로 개요', keyFactors: '위험 요인', liveNews: '분석 뉴스', realTime: '실시간', footer: '정보 제공 목적으로만.', chatHeader: '💬 질문', chatPlaceholder: '예: 안전한 경로?' },
+            ar: { subtitle: 'استخبارات بحرية فورية مدعومة بالذكاء الاصطناعي. حلل أي مسار شحن للمخاطر الجيوسياسية والتهديدات التشغيلية.', inputPlaceholder: 'أدخل مساراً — مثال: شنغهاي → روتردام', assessBtn: 'تقييم المخاطر', loading: 'جلب الأخبار والتحليل...', riskScore: 'درجة المخاطر', safe: '0 — آمن', critical: '100 — حرج', bestShipping: 'أفضل خط شحن', transitTime: 'وقت العبور', transhipment: 'موانئ العبور', routeOverview: 'نظرة عامة', keyFactors: 'عوامل المخاطر', liveNews: 'أخبار التحليل', realTime: 'فوري', footer: 'لأغراض إعلامية فقط.', chatHeader: '💬 اسأل', chatPlaceholder: 'مثال: مسار أكثر أماناً?' },
+            hi: { subtitle: 'AI-संचालित रीयल-टाइम समुद्री बुद्धिमत्ता। भू-राजनीतिक जोखिमों और परिचालन खतरों के लिए किसी भी मार्ग का विश्लेषण करें।', inputPlaceholder: 'मार्ग दर्ज करें — उदा. शंघाई → रॉटरडैम', assessBtn: 'जोखिम मूल्यांकन', loading: 'समाचार प्राप्त कर रहे हैं...', riskScore: 'जोखिम स्कोर', safe: '0 — सुरक्षित', critical: '100 — गंभीर', bestShipping: 'सर्वश्रेष्ठ शिपिंग लाइन', transitTime: 'पारगमन समय', transhipment: 'ट्रांसशिपमेंट पोर्ट', routeOverview: 'मार्ग अवलोकन', keyFactors: 'जोखिम कारक', liveNews: 'विश्लेषण समाचार', realTime: 'रीयल-टाइम', footer: 'केवल सूचनात्मक उद्देश्यों के लिए।', chatHeader: '💬 पूछें', chatPlaceholder: 'उदा. सुरक्षित मार्ग?' },
+            tr: { subtitle: 'Yapay zeka destekli gerçek zamanlı denizcilik istihbaratı. Jeopolitik riskler ve operasyonel tehditler için herhangi bir rotayı analiz edin.', inputPlaceholder: 'Rota girin — örn. Şanghay → Rotterdam', assessBtn: 'Risk Değerlendir', loading: 'Haberler alınıyor ve analiz ediliyor...', riskScore: 'Risk Puanı', safe: '0 — Güvenli', critical: '100 — Kritik', bestShipping: 'En İyi Hat', transitTime: 'Transit Süresi', transhipment: 'Aktarma Limanları', routeOverview: 'Rota Özeti', keyFactors: 'Risk Faktörleri', liveNews: 'Analiz Haberleri', realTime: 'Gerçek Zamanlı', footer: 'Yalnızca bilgilendirme amaçlıdır.', chatHeader: '💬 Sorun', chatPlaceholder: 'örn. Güvenli rota?' },
+            pl: { subtitle: 'Inteligencja morska w czasie rzeczywistym napędzana AI. Analizuj trasy pod kątem ryzyk geopolitycznych i zagrożeń operacyjnych.', inputPlaceholder: 'Wprowadź trasę — np. Szanghaj → Rotterdam', assessBtn: 'Oceń Ryzyko', loading: 'Pobieranie wiadomości i analiza...', riskScore: 'Ocena Ryzyka', safe: '0 — Bezpieczny', critical: '100 — Krytyczny', bestShipping: 'Najlepsza Linia', transitTime: 'Czas Tranzytu', transhipment: 'Porty Przeładunkowe', routeOverview: 'Przegląd Trasy', keyFactors: 'Czynniki Ryzyka', liveNews: 'Wiadomości Analizy', realTime: 'Na Żywo', footer: 'Wyłącznie informacyjnie.', chatHeader: '💬 Zapytaj', chatPlaceholder: 'np. Bezpieczniejsza trasa?' }
         };
 
         function applyLanguage(lang) {
@@ -1138,10 +1310,7 @@
 
         const langSelect = document.getElementById('langSelect');
         const savedLang = localStorage.getItem('logishield-lang');
-        if (savedLang) {
-            langSelect.value = savedLang;
-            applyLanguage(savedLang);
-        }
+        if (savedLang) { langSelect.value = savedLang; applyLanguage(savedLang); }
         langSelect.addEventListener('change', () => applyLanguage(langSelect.value));
     </script>
 </body>
