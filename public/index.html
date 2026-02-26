@@ -1164,7 +1164,8 @@
 
                 const verdictEl = document.getElementById('verdict');
                 verdictEl.className = 'verdict ' + scoreClass;
-                verdictEl.innerHTML = (scoreClass === 'safe' ? '🟢' : scoreClass === 'moderate' ? '🟡' : '🔴') + ' ' + data.verdict;
+                const verdictLabel = scoreClass === 'safe' ? 'Safe' : scoreClass === 'moderate' ? 'Moderate Risk' : 'High Risk';
+                verdictEl.innerHTML = (scoreClass === 'safe' ? '🟢' : scoreClass === 'moderate' ? '🟡' : '🔴') + ' ' + verdictLabel;
 
                 const scoreNumber = document.getElementById('scoreNumber');
                 scoreNumber.className = 'score-number ' + scoreClass;
