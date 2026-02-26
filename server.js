@@ -152,6 +152,7 @@ Respond with raw JSON only. No markdown, no code blocks, no extra text. Exactly 
     "ports": ["port 1", "port 2"]
   },
   "route_overview": "A 2-sentence description of the full route path from origin to destination including key waypoints",
+  "distance_nautical_miles": <approximate distance in nautical miles as a number>,
   "news_used": true
 }`
                 }

@@ -416,6 +416,38 @@
             color: var(--text2);
         }
 
+        /* Distance Indicator */
+        .distance-bar {
+            display: none;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            background: var(--info-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 0.82rem;
+            color: var(--text2);
+        }
+
+        .distance-bar.visible {
+            display: flex;
+        }
+
+        .distance-icon {
+            font-size: 1.1rem;
+        }
+
+        .distance-value {
+            color: var(--heading);
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .distance-sep {
+            color: var(--text5);
+        }
+
         .verdict {
             font-size: 1.5rem;
             font-weight: 700;
@@ -1000,6 +1032,12 @@
 
             <div class="card" id="resultCard">
                 <div class="port-images" id="portImages"></div>
+                <div class="distance-bar" id="distanceBar">
+                    <span class="distance-icon">📏</span>
+                    <span>Approx. Distance: <span class="distance-value" id="distanceNm">—</span> NM</span>
+                    <span class="distance-sep">·</span>
+                    <span><span class="distance-value" id="distanceKm">—</span> km</span>
+                </div>
                 <div class="verdict" id="verdict"></div>
 
                 <div class="score-section">
@@ -1161,6 +1199,15 @@
                 const score = data.score || 0;
                 const scoreClass = getScoreClass(score);
                 renderPortImages(data.portImages);
+
+                // Distance
+                const distBar = document.getElementById('distanceBar');
+                if (data.distance_nautical_miles) {
+                    const nm = data.distance_nautical_miles;
+                    document.getElementById('distanceNm').textContent = nm.toLocaleString();
+                    document.getElementById('distanceKm').textContent = Math.round(nm * 1.852).toLocaleString();
+                    distBar.classList.add('visible');
+                } else { distBar.classList.remove('visible'); }
 
                 const verdictEl = document.getElementById('verdict');
                 verdictEl.className = 'verdict ' + scoreClass;
